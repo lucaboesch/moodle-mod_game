@@ -193,7 +193,7 @@ function game_onexporthtml_cross_repair_questions($game, $context, $filename, $d
         $component = 'question';
 
         $params = ['component' => $component, 'filearea' => $filearea,
-            'itemid' => $id, 'filename' => $fileimage, 'contextid' => $contextcourse->id];
+            'itemid' => $id, 'filename' => $fileimage, 'contextid' => $contextcourse->id, ];
         $rec = $DB->get_record('files', $params);
         if ($rec == false) {
             break;

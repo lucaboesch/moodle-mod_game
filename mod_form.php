@@ -140,7 +140,7 @@ class mod_game_mod_form extends moodleform_mod {
         // Quiz Category.
         if ($gamekind != 'bookquiz') {
             $a = [];
-            if ($recs = $DB->get_records('quiz', ['course' => $COURSE->id], 'id,name')) {
+            if ($recs = $DB->get_records('quiz', [ 'course' => $COURSE->id], 'id,name')) {
                 foreach ($recs as $rec) {
                     $a[$rec->id] = $rec->name;
                 }
@@ -152,7 +152,7 @@ class mod_game_mod_form extends moodleform_mod {
         // Book.
         if ($gamekind == 'bookquiz') {
             $a = [];
-            if ($recs = $DB->get_records('book', ['course' => $COURSE->id], 'id,name')) {
+            if ($recs = $DB->get_records('book', [ 'course' => $COURSE->id], 'id,name')) {
                 foreach ($recs as $rec) {
                     $a[$rec->id] = $rec->name;
                 }
@@ -185,10 +185,20 @@ class mod_game_mod_form extends moodleform_mod {
         $mform->addElement('select', 'grademethod', get_string('grademethod', 'game'), $gradingtypeoptions);
 
         // Open and close dates.
-        $mform->addElement('date_time_selector', 'timeopen', get_string('gameopen', 'game'), ['optional' => true, 'step' => 1]);
+        $mform->addElement(
+            'date_time_selector',
+            'timeopen',
+            get_string('gameopen', 'game'),
+            ['optional' => true, 'step' => 1]
+        );
         $mform->addHelpButton('timeopen', 'gameopenclose', 'game');
 
-        $mform->addElement('date_time_selector', 'timeclose', get_string('gameclose', 'game'), ['optional' => true, 'step' => 1]);
+        $mform->addElement(
+            'date_time_selector',
+            'timeclose',
+            get_string('gameclose', 'game'),
+            ['optional' => true, 'step' => 1]
+        );
 
         // Bookquiz options.
         if ($gamekind == 'bookquiz') {
@@ -196,7 +206,12 @@ class mod_game_mod_form extends moodleform_mod {
             $bookquizlayoutoptions = [];
             $bookquizlayoutoptions[0] = get_string('bookquiz_layout0', 'game');
             $bookquizlayoutoptions[1] = get_string('bookquiz_layout1', 'game');
-            $mform->addElement('select', 'param3', get_string('bookquiz_layout', 'game'), $bookquizlayoutoptions);
+            $mform->addElement(
+                'select',
+                'param3',
+                get_string('bookquiz_layout', 'game'),
+                $bookquizlayoutoptions
+            );
         }
 
         // Hangman options.
@@ -388,11 +403,11 @@ class mod_game_mod_form extends moodleform_mod {
             $mform->setDefault('param2', 3);
 
             $a = [];
-            if ($recs = $DB->get_records('glossary', ['course' => $COURSE->id], 'id,name')) {
+            if ($recs = $DB->get_records('glossary', [ 'course' => $COURSE->id], 'id,name')) {
                 foreach ($recs as $rec) {
                     $cmg = get_coursemodule_from_instance('glossary', $rec->id, $COURSE->id);
                     $context = game_get_context_module_instance($cmg->id);
-                    if ($DB->record_exists('files', ['contextid' => $context->id])) {
+                    if ($DB->record_exists('files', [ 'contextid' => $context->id])) {
                         $a[$rec->id] = $rec->name;
                     }
                 }
@@ -473,15 +488,15 @@ class mod_game_mod_form extends moodleform_mod {
      *
      * @return array of question categories
      */
-    public function get_array_question_categories(int $courseid, string $gamekind): array {
+    public function get_array_question_categories(int $courseid, string $gamekind) {
         global $CFG, $DB;
 
         if (game_get_moodle_version() >= '05.00') {
             $sql = "SELECT ctx.id AS contextid
-				FROM {context} ctx
-				JOIN {course_modules} cm ON cm.id = ctx.instanceid
-				JOIN {modules} m ON m.id = cm.module
-				WHERE ctx.contextlevel = 70 AND cm.course = ? AND m.name = ?";
+                FROM {context} ctx
+                JOIN {course_modules} cm ON cm.id = ctx.instanceid
+                JOIN {modules} m ON m.id = cm.module
+                WHERE ctx.contextlevel = 70 AND cm.course = ? AND m.name = ?";
             $recs = $DB->get_records_sql($sql, [$courseid, 'qbank']);
             $contextids = [];
             foreach ($recs as $rec) {
@@ -547,7 +562,7 @@ class mod_game_mod_form extends moodleform_mod {
     /**
      * validation
      *
-     * @param stdClass $data
+     * @param array $data
      * @param array $files
      *
      * @return moodle_url
@@ -572,7 +587,10 @@ class mod_game_mod_form extends moodleform_mod {
         }
 
         // Check open and close times are consistent.
-        if ($data['timeopen'] != 0 && $data['timeclose'] != 0 && $data['timeclose'] < $data['timeopen']) {
+        if (
+            $data['timeopen'] != 0 && $data['timeclose'] != 0 &&
+            $data['timeclose'] < $data['timeopen']
+        ) {
             $errors['timeclose'] = get_string('closebeforeopen', 'quiz');
         }
 
@@ -614,7 +632,7 @@ class mod_game_mod_form extends moodleform_mod {
     /**
      * Set data
      *
-     * @param array $defaultvalues
+     * @param stdClass|array $defaultvalues
      */
     public function set_data($defaultvalues) {
         global $DB;
@@ -669,7 +687,7 @@ class mod_game_mod_form extends moodleform_mod {
             if (isset($defaultvalues->param3)) {
                 $board = $defaultvalues->param3;
                 if ($board != 0) {
-                    $rec = $DB->get_record('game_snakes_database', ['id' => $board]);
+                    $rec = $DB->get_record('game_snakes_database', [ 'id' => $board]);
                     $defaultvalues->snakes_data = $rec->data;
                     $defaultvalues->snakes_cols = $rec->usedcols;
                     $defaultvalues->snakes_rows = $rec->usedrows;

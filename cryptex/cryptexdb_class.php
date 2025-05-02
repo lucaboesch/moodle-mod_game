@@ -37,6 +37,8 @@ class CryptexDB extends CrossDB {
      * Sets bad words.
      *
      * @param array $badwords
+     *
+     * @return void
      */
     public function setbadwords($badwords): void {
         $this->badwords = $badwords;
@@ -231,7 +233,7 @@ class CryptexDB extends CrossDB {
      *
      * @param string $word
      *
-     * @return int: the hash
+     * @return int the hash
      */
     public function gethash($word) {
         $x = 37;
@@ -261,7 +263,7 @@ class CryptexDB extends CrossDB {
 
         $mask = str_repeat('0', $crossm->usedcols * $crossm->usedrows);
 
-        if ($recs = $DB->get_records('game_queries', [ 'attemptid' => $crossm->id])) {
+        if ($recs = $DB->get_records('game_queries', ['attemptid' => $crossm->id])) {
             foreach ($recs as $rec) {
                 if ($rec->questiontext == '') {
                     $rec->questiontext = ' ';

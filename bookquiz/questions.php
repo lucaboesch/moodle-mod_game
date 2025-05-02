@@ -109,19 +109,17 @@ if (($recs = $DB->get_records('book_chapters', ['bookid' => $game->bookid], 'pag
         $ids .= ',' . $rec->id;
     }
 }
-?>
-</table>
-<br>
-<!-- These hidden variables are always the same -->
-<input type="hidden" name=id       value="<?php  p($id) ?>" />
-<input type="hidden" name=q       value="<?php  p($q) ?>" />
-<input type="hidden" name=ids       value="<?php  p(substr($ids, 1)) ?>" />
-<center>
-<input type="submit" value="<?php  print_string("savechanges") ?>" />
-</center>
 
-</form>
-<?php
+echo '</table>';
+echo '<br>';
+// These hidden variables are always the same.
+echo '<input type="hidden" name="id" value="' . p($id) . '" />';
+echo '<input type="hidden" name="q" value="' . p($q) . '" />';
+echo '<input type="hidden" name="ids" value="' . p(substr($ids, 1)) . '" />';
+echo '<center>';
+echo '<input type="submit" value="' . print_string("savechanges") . '" />';
+echo '</center>';
+echo '</form>';
 
 echo $OUTPUT->footer($course);
 

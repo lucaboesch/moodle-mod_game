@@ -75,7 +75,7 @@ class mod_game_generator extends testing_module_generator {
             'definitiontrust' => 0,
             'usedynalink' => $CFG->glossary_linkentries,
             'casesensitive' => $CFG->glossary_casesensitive,
-            'fullmatch' => $CFG->glossary_fullmatch];
+            'fullmatch' => $CFG->glossary_fullmatch, ];
         if (!isset($record['teacherentry']) || !isset($record['approved'])) {
             $context = context_module::instance($glossary->cmid);
             if (!isset($record['teacherentry'])) {

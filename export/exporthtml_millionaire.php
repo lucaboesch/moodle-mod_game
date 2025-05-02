@@ -23,6 +23,8 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+// phpcs:disable moodle.Commenting.MissingDocblock.File
+
 /**
  * Exports millionaire.
  *
@@ -86,7 +88,6 @@ function game_millionaire_html_getquestions($game, $context, &$maxanswers, &$cou
         }
 
         $select .= " AND qtype='multichoice'";
-
     }
     $sql = "SELECT q.id as id, q.questiontext FROM $table WHERE $select";
     $recs = $DB->get_records_sql($sql);
@@ -173,8 +174,8 @@ function game_millionaire_html_print($game, $questions, $maxquestions) {
 
     echo <<<JS
 
-function Highlite(ans) {
-    document.getElementById("btAnswer" + ans).style.backgroundColor = color2;
+    function Highlite( ans) {
+        document.getElementById( "btAnswer" + ans).style.backgroundColor = color2;
 }
 
 function Restore(ans) {
@@ -314,9 +315,9 @@ function OnHelpPeople(ans) {
             }
         }
         temp = aPercent[maxPos];
-        aPercent[maxPos] = aPercent[posCorrect - 1];
-        aPercent[posCorrect - 1] = temp;
-    }
+        aPercent[maxPos] = aPercent[ posCorrect-1];
+            aPercent[ posCorrect-1] = temp;
+        }
 
     info = peopleInfo;
     for (i = 0; i < countQuestions; i++) {
@@ -368,16 +369,16 @@ function RandomizeAnswers(elements) {
         if (posCorrect == i) {
             posCorrect = pos;
         } else if (posCorrect == pos) {
-            posCorrect = i;
-        }
-
-        temp = elements[i];
-        elements[i] = elements[pos];
-        elements[pos] = temp;
-    }
+                posCorrect = i;
 }
 
-function SelectNextQuestion() {
+        temp = elements[ i];
+            elements[ i] = elements[ pos];
+            elements[ pos] = temp;
+        }
+    }
+
+    function SelectNextQuestion() {
     var i;
     var question;
     var elements = new Array();
@@ -386,7 +387,7 @@ function SelectNextQuestion() {
     question = Base64.decode(questions[current_question]);
     elements = question.split("#");
 
-    RandomizeAnswers(elements);
+        RandomizeAnswers( elements);
 
     document.getElementById("question").innerHTML = elements[0];
     for (i = 1; i < elements.length; i++) {
@@ -401,7 +402,6 @@ function SelectNextQuestion() {
 
     document.getElementById("info").innerHTML = "";
 }
-
 /**
 *
 *  Base64 encode / decode
@@ -410,6 +410,7 @@ function SelectNextQuestion() {
 **/
 
 var Base64 = {
+    // Private property.
     _keyStr : "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
 
     decode : function (input) {
@@ -475,7 +476,7 @@ var Base64 = {
 </script>
 JS;
 
-    echo '<table cellpadding="0" cellspacing="0" border="0">' . "\n";
+    echo '<table cellpadding="0" cellspacing="0" border="0" class="table-reboot">' . "\n";
     echo '<tr style="background:#408080">' . "\n";
     echo '<td rowspan="' . (int)(17 + $maxquestions) . '">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>' . "\n";
     echo '<td colspan="6">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>' . "\n";

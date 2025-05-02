@@ -128,7 +128,7 @@ class game_report extends game_default_report {
         // Define table columns.
         $tablecolumns = ['checkbox', 'picture', 'fullname', 'timestart', 'timefinish', 'duration'];
         $tableheaders = [null, '', get_string('fullname'), get_string('startedon', 'game'),
-            get_string('timecompleted', 'game'), get_string('attemptduration', 'game')];
+            get_string('timecompleted', 'game'), get_string('attemptduration', 'game'), ];
 
         if ($game->grade) {
             $tablecolumns[] = 'grade';
@@ -230,7 +230,7 @@ class game_report extends game_default_report {
             $headers = [get_string('fullname'),
                     get_string('startedon', 'game'),
                     get_string('timecompleted', 'game'),
-                    get_string('attemptduration', 'game')];
+                    get_string('attemptduration', 'game'), ];
 
             if ($game->grade) {
                 $headers[] = get_string('grade', 'game') . '/' . $game->grade;
@@ -283,7 +283,7 @@ class game_report extends game_default_report {
 
             // Here starts workshhet headers.
             $headers = [get_string('fullname'), get_string('startedon', 'game'),
-                get_string('timecompleted', 'game'), get_string('attemptduration', 'game')];
+                get_string('timecompleted', 'game'), get_string('attemptduration', 'game'), ];
 
             if ($game->grade) {
                 $headers[] = get_string('grade', 'game') . '/' . $game->grade;
@@ -483,15 +483,14 @@ class game_report extends game_default_report {
                                 empty($attempt->attempt) ? '-' :
                                     (empty($attempt->timefinish) ? get_string('unfinished', 'game') :
                                         format_time($attempt->duration)
-                                ),
-                                ];
+                                ), ];
                     } else {
                         $row = [ fullname($attempt),
                                 empty($attempt->attempt) ? '-' : userdate($attempt->timestart, $strtimeformat),
                                 empty($attempt->timefinish) ? '-' : userdate($attempt->timefinish, $strtimeformat),
                                 empty($attempt->attempt) ? '-' : (
                                     empty($attempt->timefinish) ?
-                                        get_string('unfinished', 'game') : format_time($attempt->duration))];
+                                        get_string('unfinished', 'game') : format_time($attempt->duration)), ];
                     }
 
                     if ($game->grade) {

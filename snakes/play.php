@@ -23,6 +23,8 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+// phpcs:disable moodle.Commenting.MissingDocblock.File
+
 /**
  * Plays the game "Snakes and Ladders".
  *
@@ -35,15 +37,14 @@
  * @return null
  * @throws moodle_exception
  * @package mod_game
- *
  */
 function game_snakes_continue(
-        $cm,
-        $game,
-        $attempt,
-        $snakes,
-        $context,
-        $course
+    $cm,
+    $game,
+    $attempt,
+    $snakes,
+    $context,
+    $course
 ) {
     if ($attempt !== false && $snakes !== false) {
         game_snakes_play($cm, $game, $attempt, $snakes, $context, $course);
@@ -94,10 +95,10 @@ function game_snakes_play($cm, $game, $attempt, $snakes, $context, $course) {
     if ($snakes->position > $board->usedcols * $board->usedrows && $snakes->queryid <> 0) {
         echo '<B>' . get_string('win', 'game') . '</B><BR>';
         echo '<br>';
-        echo "<a href=\"$CFG->wwwroot/mod/game/attempt.php?id={$cm->id}\">" .
+        echo "<a href=\"$CFG->wwwroot/mod/game/attempt.php?id={$cm->id}\" class=\"btn btn-secondary\">" .
             get_string('nextgame', 'game') . '</a> &nbsp; &nbsp; &nbsp; &nbsp; ';
-        echo "<a href=\"$CFG->wwwroot/course/view.php?id=$cm->course\">" .
-                get_string('finish', 'game') . '</a> ';
+        echo "<a href=\"$CFG->wwwroot/course/view.php?id=$cm->course\" class=\"btn btn-secondary\">" .
+            get_string('finish', 'game') . '</a> ';
 
         $gradeattempt = 1;
         $finish = 1;
@@ -118,39 +119,40 @@ function game_snakes_play($cm, $game, $attempt, $snakes, $context, $course) {
     if ($showboard && $game->param8 == 0) {
         game_snakes_showquestion($cm->id, $game, $snakes, $query, $context);
     }
-?>
+    ?>
     <script language="javascript" event="onload" for="window">
     <!--
     let retVal = [];
     const elements = document.getElementsByTagName("*");
     for (const item of elements) {
-        if(item.type == 'text'){
+        if (item.type == 'text') {
             item.focus();
             break;
         }
     }
     -->
     </script>
-
-    <table>
-    <tr>
-        <td>
-<div id="board" STYLE="position:relative; left:0px;top:0px;
-    width:<?php p($board->width); ?>px; height:<?php p($board->height); ?>px;">
-<img src="<?php echo $board->imagesrc; ?>">
-</div>
-
     <?php
+
+    echo "<table class=\"table-reboot\">\n";
+    echo "<tr>\n";
+    echo "<td>\n";
+    echo "<div id=\"board\" style=\"position:relative; left:0px; top:0px; width:";
+    p($board->width);
+    echo "px; height:";
+    p($board->height);
+    echo "px;\">\n";
+    echo "    <img src=\"" . $board->imagesrc . "\"/>\n";
+    echo "</div>\n";
+
     if (!$finish) {
         game_snakes_showdice($snakes, $board);
     }
-    ?>
 
-    </td>
-    </tr>
-    </table>
+    echo "    </td>\n";
+    echo "    </tr>\n";
+    echo "    </table>\n";
 
-    <?php
     if ($game->bottomtext != '') {
         echo '<br>' . $game->bottomtext;
     }
@@ -170,20 +172,27 @@ function game_snakes_play($cm, $game, $attempt, $snakes, $context, $course) {
  */
 function game_snakes_showdice($snakes, $board) {
     $pos = game_snakes_computeplayerposition($snakes, $board);
-?>
-<div ID="player1" STYLE="position:relative; left:<?php p($pos->x);?>px; top:<?php p($pos->y);?>px;" >
-<img src="snakes/1/player1.png"
-alt="<?php print_string('snakes_player', 'game', ($snakes->position + 1)); /*Accessibility. */ ?>"
-width="<?php echo $pos->width; ?>"
-height="<?php echo $pos->height; ?>"/>
-</div>
 
-<div ID="dice" STYLE="position:relative;
-left:<?php p($board->width + round($board->width / 3)); ?>px;
-top:<?php p(-2 * round($board->height / 3));?>px; ">
-    <img src="snakes/1/dice<?php p($snakes->dice);?>.png" alt="<?php print_string('snakes_dice', 'game', $snakes->dice) ?>" />
-    </div>
-    <?php
+    echo '<div id="player1" style="position:relative; left:';
+    p($pos->x);
+    echo 'px; top:';
+    p($pos->y);
+    echo 'px;" >';
+    echo '<img src="snakes/1/player1.png" ';
+    echo 'alt="' . get_string('snakes_player', 'game', ($snakes->position + 1)); /*Accessibility */
+    echo '" width="' . $pos->width . '" ';
+    echo 'height="' . $pos->height . '"/>';
+    echo '</div>';
+
+    echo '<div id="dice" style="position:relative; left:';
+    p($board->width + round($board->width / 3));
+    echo 'px; top:';
+    p(-2 * round($board->height / 3));
+    echo "px;\">\n";
+    echo '<img src="snakes/1/dice';
+    p($snakes->dice);
+    echo '.png" alt="' . get_string('snakes_dice', 'game', $snakes->dice) . '" />';
+    echo '</div>';
 }
 
 /**
@@ -247,8 +256,12 @@ function game_snakes_computenextquestion($game, &$snakes, &$query) {
     $minnum = 0;
     $query = new stdClass();
     foreach ($recs as $rec) {
-        $a = [ 'gameid' => $game->id, 'userid' => $USER->id,
-                'questionid' => $rec->questionid, 'glossaryentryid' => $rec->glossaryentryid];
+        $a = [
+            'gameid' => $game->id,
+            'userid' => $USER->id,
+            'questionid' => $rec->questionid,
+            'glossaryentryid' => $rec->glossaryentryid,
+        ];
         if (($rec2 = $DB->get_record('game_repetitions', $a, 'id,repetitions AS r')) != false) {
             if (($rec2->r < $minnum) || ($minnum == 0)) {
                 $minnum = $rec2->r;
@@ -335,7 +348,8 @@ function game_snakes_showquestion_question($game, $id, $snakes, $query, $context
     // Start the form.
     echo "<form id=\"responseform\" method=\"post\" " .
         "action=\"{$CFG->wwwroot}/mod/game/attempt.php\" onclick=\"this.autocomplete='off'\">\n";
-    echo "<center><input type=\"submit\" name=\"finishattempt\" value=\"" . get_string('sudoku_submit', 'game') . "\"></center>\n";
+    echo "<center><input type=\"submit\" name=\"finishattempt\" value=\"" . get_string('sudoku_submit', 'game') . "\"
+    class=\"btn btn-secondary\"></center>\n";
 
     // Add a hidden field with the quiz id.
     echo '<input type="hidden" name="id" value="' . s($id) . "\" />\n";
@@ -372,7 +386,8 @@ function game_snakes_showquestion_glossary($id, $snakes, $query, $game) {
     // Start the form.
     echo "<form id=\"responseform\" method=\"post\" " .
         "action=\"{$CFG->wwwroot}/mod/game/attempt.php\" onclick=\"this.autocomplete='off'\">\n";
-    echo "<center><input type=\"submit\" name=\"finishattempt\" value=\"" . get_string('sudoku_submit', 'game') . "\"></center>\n";
+    echo "<center><input type=\"submit\" name=\"finishattempt\" value=\"" . get_string('sudoku_submit', 'game') . "\"
+    class=\"btn btn-secondary\"></center>\n";
 
     // Add a hidden field with the queryid.
     echo '<input type="hidden" name="id" value="' . s($id) . "\" />\n";
@@ -397,7 +412,7 @@ function game_snakes_showquestion_glossary($id, $snakes, $query, $game) {
     echo $s . '<br>';
 
     echo get_string('answer') . ': ';
-    echo "<input type=\"text\" name=\"answer\" size=30 /><br>";
+    echo "<input type=\"text\" name=\"answer\" size=30 class=\"mb-3\"/><br>";
 
     echo "</form>\n";
 }

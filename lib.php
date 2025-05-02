@@ -22,6 +22,8 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+// phpcs:disable moodle.Commenting.TodoComment
+
 use core_course\local\entity\content_item;
 
 defined('MOODLE_INTERNAL') || die();
@@ -318,8 +320,6 @@ function game_user_complete($course, $user, $mod, $game) {
  * @param int $isteacher
  * @param int $timestart
  *
- * @return boolean
- *
  * @return bool: True if anything was printed, otherwise false.
  */
 function game_print_recent_activity(stdClass $course, int $isteacher, int $timestart) {
@@ -330,7 +330,8 @@ function game_print_recent_activity(stdClass $course, int $isteacher, int $times
  * Function to be run periodically according to the moodle cron
  *
  * @uses $CFG
- * @return boolean
+ * @return bool
+ * @todo Finish documenting this function
  **/
 function game_cron() {
     return true;

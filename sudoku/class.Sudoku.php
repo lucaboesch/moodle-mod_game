@@ -62,6 +62,8 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+// phpcs:disable PSR1.Classes.ClassDeclaration.MultipleClasses
+
 defined('MOODLE_INTERNAL') || die();
 
 @require_once("SDD/class.SDD.php");
@@ -646,7 +648,7 @@ class sudoku extends ObjectS {
     /**
      * Constructor
      *
-     * @param boolean $thedebug
+     * @param bool $thedebug
      */
     public function init($thedebug = false) {
         $this->thedebug = $thedebug;
@@ -654,7 +656,7 @@ class sudoku extends ObjectS {
         for ($i = 1; $i <= 9; $i++) {
             for ($j = 1; $j <= 9; $j++) {
                 $this->theboard[$i][$j] = new cell();
-                $this->theboard[$i][$j].init($i, $j);
+                $this->theboard[$i][$j] . init($i, $j);
             }
         }
 

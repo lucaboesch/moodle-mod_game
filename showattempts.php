@@ -15,13 +15,13 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * This page shows the answers of the current game.
+ * This page shows the answers of the current game
  *
  * @package    mod_game
- * @subpackage game
  * @copyright  2007 Vasilis Daloukas
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
 require_once("../../config.php");
 
 require_login();
@@ -52,9 +52,8 @@ echo $OUTPUT->footer();
 /**
  * Show users
  *
- * @package mod_game
- *
  * @param stdClass $game
+ * @package mod_game
  */
 function game_showusers($game) {
     global $CFG, $USER, $DB;
@@ -79,16 +78,15 @@ function game_showusers($game) {
         $users[$guest->id] = fullname($guest);
     }
     $href = $CFG->wwwroot . '/mod/game/showattempts.php?q=' . $game->id . '&userid=';
-?>
-            <script type="text/javascript">
-                function onselectuser()
-                {
-                    var groupid = document.getElementById('menugroup').value;
-                    window.location.href =
-                        "<?php echo $href;?>" + document.getElementById('menuuser').value + '&groupid=' + groupid;
-                }
-            </script>
-    <?php
+
+    echo "            <script type=\"text/javascript\">\n";
+    echo "                function onselectuser() {\n";
+    echo "                    var groupid = document.getElementById('menugroup').value;\n";
+    echo "                    window.location.href = \"" . $href . "\" + document.getElementById('menuuser').value + " .
+    "\"&groupid=\" + groupid;\n";
+    echo "                }\n";
+    echo "            </script>\n";
+
     $attributes = 'onchange="javascript:onselectuser();"';
     $name = 'user';
     $id = 'menu' . $name;
@@ -109,7 +107,10 @@ function game_showusers($game) {
     if (!empty($options)) {
         foreach ($options as $value => $label) {
             $output .= '   <option value="' . s($value) . '"';
-            if ((string)$value == (string)$selected || (is_array($selected) && in_array($value, $selected))) {
+            if (
+                (string)$value == (string)$selected ||
+                (is_array($selected) && in_array($value, $selected))
+            ) {
                 $output .= ' selected="selected"';
             }
             if ($label === '') {
@@ -126,13 +127,10 @@ function game_showusers($game) {
  * Show groups
  *
  * @param stdClass $game
- * @throws coding_exception
- * @throws dml_exception
  * @package mod_game
- *
  */
 function game_showgroups($game) {
-    global $CFG, $DB;
+    global $CFG, $USER, $DB;
 
     $groups = [];
     if (($recs = $DB->get_records_sql("SELECT id,name FROM {groups} WHERE courseid=$game->course ORDER BY name"))) {
@@ -140,13 +138,13 @@ function game_showgroups($game) {
             $groups[$rec->id] = $rec->name;
         }
     }
-    $href = $CFG->wwwroot . '/mod/game/showattempts.php?q=' . $game->id . '&groupid=';
-    echo '
-            <script type="text/javascript">
-                function onselectgroup() {
-                    window.location.href = "'.$href.'" + document.getElementById(\'menugroup\').value;
-                }
-            </script>';
+    $href = $CFG->wwwroot . '/mod/game/showattempts . php?q=' . $game->id . '&groupid=';
+
+    echo '            <script type="text/javascript">';
+    echo '                function onselectgroup() {';
+    echo '                    window.location.href = "' . $href . '" + document.getElementById(\'menugroup\').value;';
+    echo '                }';
+    echo '            </script>';
 
     $attributes = 'onchange="javascript:onselectgroup();"';
     $name = 'group';
@@ -167,9 +165,10 @@ function game_showgroups($game) {
 
     if (!empty($options)) {
         foreach ($options as $value => $label) {
-            $output .= '   <option value="' . s($value) . '"';
+            $output .= '   <option value="' .  s($value) . '"';
             if (
-                (string)$value == (string)$selected || (is_array($selected) && in_array($value, $selected))
+                (string)$value == (string)$selected ||
+                (is_array($selected) && in_array($value, $selected))
             ) {
                 $output .= ' selected="selected"';
             }
@@ -186,12 +185,11 @@ function game_showgroups($game) {
 /**
  * Show attempts
  *
- * @package mod_game
- *
  * @param stdClass $game
+ * @package mod_game
  */
 function game_showattempts($game) {
-    global $CFG, $DB, $context;
+    global $CFG, $DB, $OUTPUT, $context;
 
     $allowdelete = has_capability('mod/game:manage', $context);
 
@@ -213,7 +211,7 @@ function game_showattempts($game) {
     $maxlines = 20;
     $recslimitfrom = $recslimitnum = '';
     if ($count > $maxlines) {
-        $recslimitfrom = ($limitfrom ? $limitfrom * $maxlines : '');
+        $recslimitfrom = ( $limitfrom ? $limitfrom * $maxlines : '');
         $recslimitnum = $maxlines;
 
         for ($i = 0; $i * $maxlines < $count; $i++) {
@@ -254,9 +252,9 @@ function game_showattempts($game) {
             }
             echo '</center></td>';
             echo '<td><center>' . $rec->firstname . ' ' . $rec->lastname . '</center></td>';
-            echo '<td><center>' . ($rec->timestart != 0 ? userdate($rec->timestart) : '') . "</center></td>\r\n";
-            echo '<td><center>' . ($rec->timelastattempt != 0 ? userdate($rec->timelastattempt) : '') . '</center></td>';
-            echo '<td><center>' . ($rec->timefinish != 0 ? userdate($rec->timefinish) : '') . '</center></td>';
+            echo '<td><center>' . ( $rec->timestart != 0 ? userdate($rec->timestart) : '') . "</center></td>\r\n";
+            echo '<td><center>' . ( $rec->timelastattempt != 0 ? userdate($rec->timelastattempt) : '') . '</center></td>';
+            echo '<td><center>' . ( $rec->timefinish != 0 ? userdate($rec->timefinish) : '') . '</center></td>';
             echo '<td><center>' . round($rec->score * 100) . '</center></td>';
             echo '<td><center>' . $rec->attempts . '</center></td>';
             echo '<td><center>';
@@ -266,8 +264,8 @@ function game_showattempts($game) {
                 echo "\r\n<a href=\"{$CFG->wwwroot}/mod/game/preview.php?action=preview&amp;";
                 echo "attemptid={$rec->id}&amp;gamekind=$gamekind";
                 echo '&amp;update=' . $update . "&amp;q={$game->id}\">";
-                echo '<img src="' . game_pix_url('t/preview') .
-                        '" alt="' . get_string('preview', 'game') . '" style="width: 1em" /></a>';
+                echo '<img src="' . game_pix_url('t/preview') . '" alt="' .
+                    get_string('preview', 'game') . '" style="width: 1em" /></a>';
             }
             echo '</center></td>';
 
@@ -277,8 +275,8 @@ function game_showattempts($game) {
                 echo "\r\n<a href=\"{$CFG->wwwroot}/mod/game/preview.php?action=solution&amp;" .
                     "attemptid={$rec->id}&amp;gamekind={$gamekind}&amp;update=$update&amp;&amp;" .
                     "q={$game->id}\">";
-                echo '<img src="' . game_pix_url('t/preview') . '" alt="' .
-                        get_string('showsolution', 'game') . '" style="width: 1em" /></a>';
+                echo '<img src="' . game_pix_url('t/preview') . '" alt="' . get_string('showsolution', 'game') . '" ' .
+                    'style="width: 1em" /></a>';
             }
             echo '</center></td>';
             echo "</tr>\r\n";
@@ -290,18 +288,19 @@ function game_showattempts($game) {
 /**
  * One delete attempt
  *
- * @package mod_game
- *
  * @param stdClass $game
+ * @package mod_game
  */
-function game_ondeleteattempt(stdClass $game) {
+function game_ondeleteattempt($game) {
     global $CFG, $DB;
 
     $attemptid = required_param('attemptid', PARAM_INT);
 
+    $attempt = $DB->get_record('game_attempts', [ 'id' => $attemptid]);
+
     switch ($game->gamekind) {
         case 'bookquiz':
-            $DB->delete_records('game_bookquiz_chapters', ['attemptid' => $attemptid]);
+            $DB->delete_records('game_bookquiz_chapters', [ 'attemptid' => $attemptid]);
             break;
     }
     $DB->delete_records('game_queries', [ 'attemptid' => $attemptid]);

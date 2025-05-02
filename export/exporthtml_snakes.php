@@ -24,19 +24,19 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title><?php echo $html->title;?></title>
+// phpcs:disable moodle.Commenting.MissingDocblock.File
 
-<link href="css/game.css" rel="stylesheet" type="text/css" />
+echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">';
+echo '<html xmlns="http://www.w3.org/1999/xhtml">';
+echo '<head>';
+echo '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />';
+echo '<title>' . $html->title . '</title>';
 
-<link rel="stylesheet" type="text/css" href="css/subModal.css" />
-    <script type="text/javascript" src="js/common.js"></script>
+echo '<link href="css/game.css" rel="stylesheet" type="text/css" />';
 
-<?php
+echo '<link rel="stylesheet" type="text/css" href="css/subModal.css" />';
+echo '<script type="text/javascript" src="js/common.js"></script>';
+
     createsubmodaljs();
 ?>
 
@@ -62,57 +62,70 @@ body
 }
 </style>
 
-</head>
-
-<body>
-
-<script language="JavaScript">
-// Snakes for Moodle by Maria Rigkou.
-
-var boards = 1;
-var board_images = new Array(boards);
-var board_names = new Array(boards);
-var pawn_width = new Array(boards);
-var pawn_height = new Array(boards);
-var board_cols = new Array(boards);
-var board_rows = new Array(boards);
-var board_contents = new Array(boards);
-var board_headerx = new Array(boards);
-var board_headery = new Array(boards);
-var board_footerx = new Array(boards);
-var board_footery = new Array(boards);
-var board_width = new Array(boards);
-var board_height = new Array(boards);
-var board_data = new Array(boards);
-var pawn_width = new Array(boards);
-var pawn_height = new Array(boards);
-
-var current_board = 0;
-var current_position=0;
-var current_quest = 0;
-var mchoice_count = 0;
-var mchoice_positions =new Array(1);
-
-var quest_text = "";    //Question
-var quest_resp = "";    // Answer
-var quest_feedb = "";   // feedback
-var quest_total = 25; // Count of questions
-
-board_images[0] = '<?php echo $board->fileboard; ?>';
-board_names[0] = "<?php echo $game->name; ?>";
-board_cols[0] = <?php echo $board->usedcols; ?>;
-board_rows[0] = <?php echo $board->usedrows; ?>;
-board_contents[0] = '<?php echo $board->data; ?>';
-board_headerx[0] = <?php echo $board->headerx; ?>;
-board_headery[0] = <?php echo $board->headery; ?>;
-board_footerx[0] = <?php echo $board->footerx; ?>;
-board_footery[0] = <?php echo $board->footery; ?>;
-board_width[0] = <?php echo $board->width; ?>;
-board_height[0] = <?php echo $board->height; ?>;
-pawn_width[0] = 40;
-pawn_height[0]= 40;
-
-<?php
+echo "<style type=\"text/css\">\n";
+echo "#pawn {\n";
+echo "    position:absolute;\n";
+echo "}\n";
+echo "img {\n";
+echo "    border:hidden;\n";
+echo "}\n";
+echo "body {\n";
+echo "    background: #999 url('images/backdropJungle.png') no-repeat fixed left top;\n";
+echo "}\n";
+echo ".score {\n";
+echo "    color: #FC3;\n";
+echo "    font-size: 40px;\n";
+echo "}\n";
+echo "</style>\n";
+echo "\n";
+echo "</head>\n";
+echo "\n";
+echo "<body>\n";
+echo "\n";
+echo "<script language=\"JavaScript\">\n";
+echo "// Snakes for Moodle by Maria Rigkou.\n";
+echo "var boards = 1;\n";
+echo "var board_images = new Array(boards);\n";
+echo "var board_names = new Array(boards);\n";
+echo "var pawn_width = new Array(boards);\n";
+echo "var pawn_height = new Array(boards);\n";
+echo "var board_cols = new Array(boards);\n";
+echo "var board_rows = new Array(boards);\n";
+echo "var board_contents = new Array(boards);\n";
+echo "var board_headerx = new Array(boards);\n";
+echo "var board_headery = new Array(boards);\n";
+echo "var board_footerx = new Array(boards);\n";
+echo "var board_footery = new Array(boards);\n";
+echo "var board_width = new Array(boards);\n";
+echo "var board_height = new Array(boards);\n";
+echo "var board_data = new Array(boards);\n";
+echo "var pawn_width = new Array(boards);\n";
+echo "var pawn_height = new Array(boards);\n";
+echo "\n";
+echo "var current_board = 0;\n";
+echo "var current_position = 0;\n";
+echo "var current_quest = 0;\n";
+echo "var mchoice_count = 0;\n";
+echo "var mchoice_positions = new Array(1);\n";
+echo "\n";
+echo "var quest_text = \"\";\n";    // Question.
+echo "var quest_resp = \"\";\n";    // Answer.
+echo "var quest_feedb = \"\";\n";   // Feedback.
+echo "var quest_total = 25;\n";   // Count of questions.
+echo "\n";
+echo "board_images[0] = '" . $board->fileboard . "';\n";
+echo "board_names[0] = \"" . $game->name . "\";\n";
+echo "board_cols[0] = " . $board->usedcols . ";\n";
+echo "board_rows[0] = " . $board->usedrows . ";\n";
+echo "board_contents[0] = '" . $board->data . "';\n";
+echo "board_headerx[0] = " . $board->headerx . ";\n";
+echo "board_headery[0] = " . $board->headery . ";\n";
+echo "board_footerx[0] = " . $board->footerx . ";\n";
+echo "board_footery[0] = " . $board->footery . ";\n";
+echo "board_width[0] = " . $board->width . ";\n";
+echo "board_height[0] = " . $board->height . ";\n";
+echo "pawn_width[0] = 40;\n";
+echo "pawn_height[0] = 40;\n";
 
 echo "var countofquestionsM=$countofquestionsm;\r\n";
 echo 'var countofquestionsS=' . count($questionss) . ";\r\n";
@@ -520,6 +533,11 @@ function move_pawn() {
 <?php
 /**
  * Outputs the JavaScript used by the submodal popup.
+ *
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @copyright  2007 Vasilis Daloukas
+ * @return void
+ * @package mod_game
  */
 function createsubmodaljs() {
     echo <<<'EOT'
@@ -686,6 +704,7 @@ function setMaskSize() {
 
 // callReturnFunc: bool - determines if we call the return function specified
 // returnVal: mixed - return value
+
 function hidePopWin(callReturnFunc) {
     gPopupIsShown = false;
     var theBody = document.getElementsByTagName("BODY")[0];
@@ -728,7 +747,8 @@ function disableTabIndexes() {
     }
 }
 
-function returnRefresh() {
+function returnRefresh(){
+
     window.location.reload();
 }
 

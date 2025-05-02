@@ -24,7 +24,16 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$exportattachment = ($html->type == 'hangmanp');
+// phpcs:disable moodle.Commenting.MissingDocblock.File
+
+?>
+<script type="text/javascript">
+
+// Hangman for Moodle by Vasilis Daloukas.
+// The script is based on HangMan II script- By Chris Fortey (http://www.c-g-f.net/)
+
+var can_play = true;
+<?php
 $destdir = game_export_createtempdir();
 $map = game_exmportjavame_getanswers($game, $context, $exportattachment, $destdir, $files);
 if ($map == false) {
@@ -185,22 +194,25 @@ $ishangmanp = ($html->type == 'hangmanp' ? 'true' : 'false');
             wrong_guesses++;
 
             if (!ishangmanp) {
-                document.hm.src = "hangman_" + wrong_guesses + ".jpg";
-            }
+    document.hm.src = "hangman_" + wrong_guesses + ".jpg";
+
+}
 
             if (wrong_guesses === maxwrong) {
                 alert(loosemsg);
-                can_play = false;
-                reset();
-            }
+            can_play = false;
+            reset();
         }
-
-        showallletters();
     }
 
-    function stripHTML(oldString) {
-        return oldString.replace(/<&#91;^>&#93;*>/g, "");
-    }
+    showallletters();
+}
+
+function stripHTML(oldString) {
+
+  return oldString.replace(/<&#91;^>&#93;*>/g, "");
+
+}
 
     function reset() {
         selectWord();
@@ -245,9 +257,12 @@ $ishangmanp = ($html->type == 'hangmanp' ? 'true' : 'false');
         to_guess = Base64.decode(words[random_number]);
         to_question = Base64.decode(questions[random_number]);
 
-        masked_word = createMask(to_guess);
-        document.getElementById('displayWord').innerHTML = masked_word;
-        display_word = masked_word;
+
+    masked_word = createMask(to_guess);
+    document.getElementById('displayWord').innerHTML=masked_word;
+
+    display_word = masked_word;
+
 
         if (ishangmanp) {
             document.hm.src = images[random_number];

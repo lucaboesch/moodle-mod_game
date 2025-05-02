@@ -14,6 +14,8 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+// phpcs:disable moodle.Commenting.Package.Multiple
+
 /**
  * This page plays the cryptex game
  *
@@ -40,7 +42,7 @@ require_once("cryptexdb_class.php");
  * @param stdClass $course
  */
 function game_cryptex_continue($cm, $game, $attempt, $cryptexrec, $endofgame, $context, $course) {
-    global $DB, $USER;
+    global $CFG, $DB, $USER;
 
     if ($endofgame) {
         game_updateattempts($game, $attempt, -1, true, $cm, $course);
@@ -78,7 +80,7 @@ function game_cryptex_continue($cm, $game, $attempt, $cryptexrec, $endofgame, $c
 
         $rec->answertext = game_upper($rec->answertext);
         $answers[$rec->answertext] = game_repairquestion($rec->questiontext);
-        $infos[$rec->answertext] = [ $game->sourcemodule, $rec->questionid, $rec->glossaryentryid];
+        $infos[$rec->answertext] = [$game->sourcemodule, $rec->questionid, $rec->glossaryentryid];
 
         $a = [ 'gameid' => $game->id, 'userid' => $USER->id,
             'questionid' => $rec->questionid, 'glossaryentryid' => $rec->glossaryentryid];
@@ -91,7 +93,7 @@ function game_cryptex_continue($cm, $game, $attempt, $cryptexrec, $endofgame, $c
 
     // The game->param4 is minimum words.
     // The game->param2 is maximum words.
-    $badwords = [ 'NO', 'ASS', 'SEX', 'FUCK', 'WANK', 'BITCH', 'BASTARD', 'TWAT', 'CUNT'];
+    $badwords = ['NO', 'ASS', 'SEX', 'FUCK', 'WANK', 'BITCH', 'BASTARD', 'TWAT', 'CUNT'];
     $a = $badwords;
     foreach ($a as $word) {
         $badwords[] = strrev($word);
@@ -279,7 +281,7 @@ function game_cryptex_play(
             game_cryptex_onfinished($cm, $game, $attempt, $cryptexrec, $course);
         }
     }
-?>
+    ?>
 <style type="text/css"><!--
 
 .answerboxstyle {
@@ -299,10 +301,10 @@ width: 240pt;
 
     echo '<br>';
 
-    echo '<table border=0>';
+    echo '<table border=0 class="table-reboot">';
     echo '<tr><td>';
     $cryptex->displaycryptex($crossm->usedcols, $crossm->usedrows, $cryptexrec->letters, $mask, $showsolution, $textdir);
-?>
+    ?>
 </td>
 
 <td width=10%>&nbsp;</td>
@@ -318,7 +320,7 @@ width: 240pt;
 <div style="margin-top:1em;"><input id="answer" name="answer" type="text" size="24"
  style="font-weight: bold; text-transform:uppercase;" autocomplete="off"></div>
 
-<table border="0" cellspacing="0" cellpadding="0" width="100%" style="margin-top:1em;"><tr>
+<table border="0" cellspacing="0" cellpadding="0" width="100%" style="margin-top:1em;" class="table-reboot"><tr>
 <td align="right">
 <button id="okbutton" type="submit" class="button" style="font-weight: bold;"><?php echo get_string('ok'); ?></button> &nbsp;
 <button id="cancelbutton" type="button" class="button" onclick="DeselectCurrentWord();"><?php echo get_string('cancel'); ?></button>
@@ -338,7 +340,7 @@ width: 240pt;
     }
 
     if ($showhtmlprintbutton) {
-    ?>
+        ?>
 <script>
     function PrintHtmlClick() {
         document.getElementById("printbutton").style.display = "none";
@@ -353,7 +355,7 @@ width: 240pt;
         global $CFG;
 
         $params = "id={$cm->id}&gameid={$game->id}";
-        echo "window.open(\"{$CFG->wwwroot}/mod/game/print.php?$params\");";
+        echo "window.open( \"{$CFG->wwwroot}/mod/game/print.php?$params\");";
         ?>
     }
 
@@ -408,7 +410,7 @@ width: 240pt;
         if (($onlyshow == false) && ($showsolution == false)) {
             if (($game->param8 == 0) || ($game->param8 > $q->tries)) {
                 $question .= ' &nbsp;<input type="submit" value="' .
-                get_string('answer') . '" onclick="OnCheck(' . $q->id . ",msg{$q->id});\" />";
+                get_string('answer') . '" onclick="OnCheck( ' . $q->id . ",msg{$q->id});\" />";
             }
         }
         echo $question;
@@ -425,7 +427,7 @@ width: 240pt;
 
     ?>
     <script>
-        function OnCheck(id, question) {
+        function OnCheck( id, question) {
             document.getElementById("q").value = id;
             document.getElementById("wordclue").innerHTML = question;
 
@@ -459,9 +461,12 @@ width: 240pt;
  * @param stdClass $attempt
  * @param stdClass $cryptexrec
  * @param stdClass $course
+ * @return void
+ * @throws coding_exception
+ * @package mod_game
  */
 function game_cryptex_onfinished($cm, $game, $attempt, $cryptexrec, $course) {
-    global $CFG;
+    global $CFG, $DB;
 
     echo '<B>' . get_string('win', 'game') . '</B><br>';
     echo '<br>';

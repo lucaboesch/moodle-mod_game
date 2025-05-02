@@ -15,12 +15,13 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Export game to printable HTML format.
+ * This page export the game to html
  *
  * @package    mod_game
  * @copyright  2007 Vasilis Daloukas
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
 require_once("../../config.php");
 require_once("lib.php");
 require_once("locallib.php");
@@ -48,12 +49,11 @@ game_print($cm, $game, $context, $course);
 /**
  * Print
  *
- * @package mod_game
- *
  * @param stdClass $cm
  * @param stdClass $game
  * @param stdClass $context
  * @param stdClass $course
+ * @package mod_game
  */
 function game_print($cm, $game, $context, $course) {
     if ($game->gamekind == 'cross') {
@@ -65,8 +65,6 @@ function game_print($cm, $game, $context, $course) {
 
 /**
  * Prints a cross.
- *
- * @package mod_game
  *
  * @param stdClass $cm
  * @param stdClass $game
@@ -91,12 +89,11 @@ function game_print_cross($cm, $game, $context, $course) {
     $showhtmlprintbutton = false;
     $showstudentguess = false;
 
-?>
-<html  dir="ltr" lang="el" xml:lang="el" xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <title>Print</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <?php
+    echo '<html dir="ltr" lang="el" xml:lang="el" xmlns="http://www.w3.org/1999/xhtml">';
+    echo '<head>';
+    echo '<title>Print</title>';
+    echo '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />';
+
     game_cross_play(
         $cm,
         $game,
@@ -119,12 +116,11 @@ function game_print_cross($cm, $game, $context, $course) {
 /**
  * Prints a cryptex.
  *
- * @package mod_game
- *
  * @param stdClass $cm
  * @param stdClass $game
  * @param stdClass $context
  * @param stdClass $course
+ * @package mod_game
  */
 function game_print_cryptex($cm, $game, $context, $course) {
     global $DB;
@@ -145,12 +141,11 @@ function game_print_cryptex($cm, $game, $context, $course) {
     $print = true;
     $crossm = $DB->get_record_select('game_cross', "id=$attempt->id");
 
-    ?>
-<html  dir="ltr" lang="el" xml:lang="el" xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <title>Print</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <?php
+    echo '<html dir="ltr" lang="el" xml:lang="el" xmlns="http://www.w3.org/1999/xhtml">';
+    echo '<head>';
+    echo '<title>Print</title>';
+    echo '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />';
+
     game_cryptex_play(
         $cm,
         $game,

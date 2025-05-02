@@ -154,8 +154,8 @@ function game_showcheckbox($name, $value) {
  * @package mod_game
  *
  * @param stdClass $game
- * @param boolean $allowspaces
- * @param boolean $userepetitions
+ * @param bool $allowspaces
+ * @param bool $userepetitions
  *
  * @return string the HTML
  */
@@ -2177,33 +2177,26 @@ function game_print_question_multichoice($game, $question, $context) {
         $answer->feedback = '';
         $anss[] = $answer;
     }
-?>
-<div class="qtext">
-    <?php echo game_filterquestion(str_replace('\"', '"', $questiontext), $question->id, $context->id, $game->course); ?>
-</div>
+    echo '<div class="qtext">';
+    echo game_filterquestion(str_replace('\"', '"', $questiontext), $question->id, $context->id, $game->course);
+    echo '</div>';
 
+    echo '<div class="ablock clearfix">';
+    echo '<div class="prompt">';
+    echo $answerprompt;
+    echo '</div>';
 
-<div class="ablock clearfix">
-    <div class="prompt">
-        <?php echo $answerprompt; ?>
-    </div>
-
-    <table class="answer">
-    <?php
+    echo '<table class="answer">';
     $row = 1;
     foreach ($anss as $answer) {
-    ?>
-        <tr class="<?php echo 'r' . $row = $row ? 0 : 1; ?>">
-            <td>
-                <?php echo $answer->control; ?>
-            </td>
-        </tr>
-        <?php
+        echo '<tr class="r' . ($row = $row ? 0 : 1) . '">';
+        echo '<td>';
+        echo $answer->control;
+        echo '</td>';
+        echo '</tr>';
     }
-        ?>
-    </table>
-</div>
-    <?php
+    echo '</table>';
+    echo '</div>';
 }
 
 /**
@@ -2239,33 +2232,26 @@ function game_print_question_multianswer($game, $question, $context) {
         $answer->feedback = '';
         $anss[] = $answer;
     }
-?>
-<div class="qtext">
-    <?php echo game_filterquestion(str_replace('\"', '"', $questiontext), $question->id, $context->id, $game->course); ?>
-</div>
+    echo '<div class="qtext">';
+    echo game_filterquestion(str_replace('\"', '"', $questiontext), $question->id, $context->id, $game->course);
+    echo '</div>';
 
+    echo '<div class="ablock clearfix">';
+    echo '<div class="prompt">';
+    echo $answerprompt;
+    echo '</div>';
 
-<div class="ablock clearfix">
-    <div class="prompt">
-        <?php echo $answerprompt; ?>
-    </div>
-
-    <table class="answer">
-    <?php
+    echo '<table class="answer">';
     $row = 1;
     foreach ($anss as $answer) {
-    ?>
-        <tr class="<?php echo 'r' . $row; ?>">
-            <td>
-                <?php echo $answer->control; ?>
-            </td>
-        </tr>
-        <?php
+        echo '<tr class="r' . ($row = $row ? 0 : 1) . '">';
+        echo '<td>';
+        echo $answer->control;
+        echo '</td>';
+        echo '</tr>';
     }
-        ?>
-    </table>
-</div>
-    <?php
+    echo '</table>';
+    echo '</div>';
 }
 
 /**
@@ -2280,22 +2266,17 @@ function game_print_question_multianswer($game, $question, $context) {
 function game_print_question_shortanswer($game, $question, $context) {
     $questiontext = $question->questiontext;
 
-?>
-<div class="qtext">
-    <?php
+    echo '<div class="qtext">';
     echo game_filterquestion(str_replace('\"', '"', $questiontext), $question->id, $context->id, $game->course);
-    ?>
-</div>
-
-<div class="ablock clearfix">
-  <div class="prompt">
-    <?php echo get_string("answer", "quiz") . ': '; ?>
-  </div>
-  <div class="answer">
-    <input type="text" name="resp<?php echo $question->id; ?>_" size="80"/>
-  </div>
-</div>
-    <?php
+    echo '</div>';
+    echo '<div class="ablock clearfix">';
+    echo '<div class="prompt">';
+    echo get_string("answer", "quiz") . ': ';
+    echo '</div>';
+    echo '<div class="answer">';
+    echo '<input type="text" name="resp' . $question->id . '_" size="80"/>';
+    echo '</div>';
+    echo '</div>';
 }
 
 /**

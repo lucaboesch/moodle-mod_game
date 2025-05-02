@@ -21,6 +21,9 @@
  * @copyright 2007 Vasilis Daloukas
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
+// phpcs:disable moodle.Commenting.MissingDocblock.File
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once("cross_class.php");
@@ -108,7 +111,11 @@ function game_cross_new($game, $attemptid, &$crossm) {
 
     $recs = game_questions_shortanswer($game);
     if ($recs == false) {
-        throw new moodle_exception('cross_error', 'game', 'game_cross_continue: ' . get_string('no_words', 'game'));
+        throw new moodle_exception(
+            'cross_error',
+            'game',
+            'game_cross_continue: ' . get_string('no_words', 'game')
+        );
     }
 
     foreach ($recs as $rec) {
@@ -280,17 +287,17 @@ function game_cross_play(
     if ($game->toptext != '') {
         echo $game->toptext . '<br>';
     }
-    echo '
-<h1></h1>
+    echo "<h1></h1>\n";
 
-<div id="waitmessage" class="answerboxstyle">
-    This interactive crossword puzzle requires JavaScript and a reasonably recent web browser, such as Internet Explorer 5.5
-    or later, Netscape 7, Mozilla, Firefox, or Safari.  If you have disabled web page scripting, please re-enable it and refresh
-    the page.
-</div>
+    echo "<div id=\"waitmessage\" class=\"answerboxstyle\">\n";
+    echo "    This interactive crossword puzzle requires JavaScript and a reasonably recent web browser, such as " .
+            "Internet Explorer 5.5\n";
+    echo "    or later, Netscape 7, Mozilla, Firefox, or Safari. If you have disabled web page scripting, please re-enable it " .
+            "and refresh\n";
+    echo "    the page.\n";
+    echo "</div>\n";
 
-
-<p><table cellpadding="0" cellspacing="0" border="0">';
+    echo "<p><table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" class=\"table-reboot\">\n";
 
     if ($game->param3 == 1) {
         // Legends is at the right.
@@ -319,14 +326,10 @@ function game_cross_play(
         $checkserverurl = $CFG->wwwroot . '/mod/game/attempt.php?id=' . $cm->id . '&action=crosscheck&g=';
     }
 
-    echo '
-<tr>
-<td class="crosswordarea">';
-
-    echo '<table id="crossword" cellpadding="3" cellspacing="0" ' .
-            'style="display: none; border-collapse: collapse;" ' . $textdir . '>';
+    echo '<tr>';
+    echo '<td class="crosswordarea">';
+    echo '<table id="crossword" cellpadding="3" cellspacing="0" style="display: none; border-collapse: collapse;" $textdir;>';
     ?>
-
 <script language="JavaScript" type="text/javascript"><!--
 
 // EclipseCrossword and this script block (C) Copyright 2000-2005 Green Eclipse.
@@ -619,7 +622,7 @@ function SelectThisWord(event) {
     echo 'var downlabel = ' . json_encode($crossdown . ', ') . ';';
     echo 'var oneletterlabel = ' . json_encode(' ' . $letter . '.') . ';';
     echo 'var manyletterslabel = ' . json_encode(' ' . $letters . '.') . ';';
-?>
+    ?>
     var s = (CurrentWord <= LastHorizontalWord) ? acrosslabel : downlabel;
     s = s + WordLength[CurrentWord] +
         (WordLength[CurrentWord] == 1 ? oneletterlabel : manyletterslabel);
@@ -704,7 +707,7 @@ function OKClick() {
 
     <?php
     if ($showhtmlsolutions == false) {
-    ?>
+        ?>
 function PackPuzzle(sData) {
     var i, s, s2, n, j;
 
@@ -792,7 +795,7 @@ function CheckServerClick(endofgame) {
 }
         <?php
     }
-        ?>
+    ?>
 
     function OnPrint() {
         window.open(<?php echo json_encode($onprinturl); ?>);
@@ -800,7 +803,7 @@ function CheckServerClick(endofgame) {
 
     <?php
     if ($showhtmlprintbutton) {
-    ?>
+        ?>
     function PrintHtmlClick() {
         document.getElementById("printhtmlbutton").style.display = "none";
 
@@ -817,11 +820,11 @@ function CheckServerClick(endofgame) {
     }
         <?php
     }
-        ?>
+    ?>
 
     <?php
     if ($showhtmlprintbutton) {
-    ?>
+        ?>
 
     // Base64 encode / decode.
     // Source adapted from webtoolkit.
@@ -958,7 +961,7 @@ function CheckHtmlClick() {
     }
         <?php
     }
-        ?>
+    ?>
 
 //-->
 </script>
@@ -973,10 +976,9 @@ function CheckHtmlClick() {
     } else {
         game_cross_show_welcome($game);
     }
-    ?>
 
-</tr></table>
-    <?php
+    echo "</tr></table>\n";
+
     if ($onlyshow == false) {
         echo '<div style="margin-top: 1em;">';
 
@@ -1031,7 +1033,7 @@ function CheckHtmlClick() {
 
     if ($attempt != false) {
         if ($attempt->timefinish == 0 && $endofgame == 0) {
-    ?>
+            ?>
             <script language="JavaScript" type="text/javascript"><!--
                 var showwelcomemessage = <?php echo $showwelcomemessage ? 'true' : 'false'; ?>;
                 var showactionbuttons = <?php echo $showactionbuttons ? 'true' : 'false'; ?>;
@@ -1051,7 +1053,7 @@ function CheckHtmlClick() {
             <?php
         }
     }
-            ?>
+    ?>
 
 </body>
 
@@ -1081,46 +1083,40 @@ function game_cross_show_welcome($game) {
  * @param stdClass $game
  */
 function game_cross_show_welcome0($game) {
-?>
-<td valign="top" style="padding-left: 1em;">
+    echo '<td valign="top" style="padding-left: 1em;">';
 
-<div id="welcomemessage" class="answerboxstyle" style="display:none;">
-    <?php echo get_string('cross_welcome', 'game'); ?> </div>
+    echo '<div id="welcomemessage" class="answerboxstyle" style="display:none;">';
+    echo get_string('cross_welcome', 'game');
+    echo '</div>';
 
-<div id="answerbox2"  style="display:none;"></div>
+    echo '<div id="answerbox2" style="display:none;"></div>';
 
-<div id="answerbox" class="answerboxstyle" style="display:none;">
-<h3 id="wordlabel" style="text-transform:uppercase;margin:0;"> </h3>
-<div id="wordinfo" style="font-size:8pt;color:#808080"> </div>
-<div id="wordclue" class="cluebox"> </div>
-<div style="margin-top:1em;"><input id="wordentry" type="text" size="24"
-    <?php
-    echo 'style="font-weight: bold; ';
+    echo '<div id="answerbox" class="answerboxstyle" style="display:none;">';
+    echo '<h3 id="wordlabel" style="text-transform:uppercase;margin:0;"></h3>';
+    echo '<div id="wordinfo" style="font-size:8pt;color:#808080;"></div>';
+    echo '<div id="wordclue" class="cluebox"></div>';
+    echo '<div style="margin-top:1em;"><input id="wordentry" type="text" size="24" style="font-weight: bold;';
     if ($game->param6 == 0) {
         echo 'text-transform:uppercase;';
     }
     echo '"';
-    ?>
- onkeypress="WordEntryKeyPress(event)" onchange="WordEntryKeyPress(event)" autocomplete="off"></div>
-    <?php
+    echo '" onkeypress="WordEntryKeyPress(event)" onchange="WordEntryKeyPress(event)" autocomplete="off"></div>';
     if ($game->param3 == 2) {
         game_cross_show_welcome($game);
     }
-    ?>
-<div id="worderror" style="color:#c00000;font-weight:bold;display:none;margin-top:1em;"></div>
 
-<table border="0" cellspacing="0" cellpadding="0" width="100%" style="margin-top:1em;"><tr>
-<td align="right">
-<button id="okbutton" type="button" class="button" onclick="OKClick();" style="font-weight: bold;">
-    <?php echo get_string('ok'); ?></button> &nbsp;
-<button id="cancelbutton" type="button" class="button" onclick="DeselectCurrentWord();"><?php echo get_string('cancel'); ?></button>
-</td></tr></table>
-
-</div>
-
-
-</td>
-    <?php
+    echo '<div id="worderror" style="color:#c00000;font-weight:bold;display:none;margin-top:1em;"></div>';
+    echo '<table border="0" cellspacing="0" cellpadding="0" width="100%" style="margin-top:1em;" class="table-reboot"><tr>';
+    echo '<td align="right">';
+    echo '<button id="okbutton" type="button" class="button" onclick="OKClick();" style="font-weight: bold;">';
+    echo get_string('ok');
+    echo '</button> &nbsp;';
+    echo '<button id="cancelbutton" type="button" class="button" onclick="DeselectCurrentWord();">';
+    echo get_string('cancel');
+    echo '</button>';
+    echo '</td></tr></table>';
+    echo '</div>';
+    echo '</td>';
 }
 
 /**
@@ -1129,38 +1125,40 @@ function game_cross_show_welcome0($game) {
  * @package mod_game
  */
 function game_cross_show_welcome1() {
-?>
-<td valign="top" style="padding-left: 1em;">
+    echo '<td valign="top" style="padding-left: 1em;">';
 
-<div id="welcomemessage" class="answerboxstyle" style="display:none;">
-    <?php echo get_string('cross_welcome', 'game'); ?> </div>
+    echo '<div id="welcomemessage" class="answerboxstyle" style="display:none;">';
+    echo get_string('cross_welcome', 'game');
+    echo '</div>';
 
-<div id="answerbox" class="answerboxstyle" style="display:none;">
+    echo '<div id="answerbox" class="answerboxstyle" style="display:none;">';
 
-<div style="margin-top:1em;"><input id="wordentry" type="text" size="24"
- style="font-weight: bold; text-transform:uppercase;"
- onkeypress="WordEntryKeyPress(event)" onchange="WordEntryKeyPress(event)" autocomplete="off"></div>
-<div id="worderror" style="color:#c00000;font-weight:bold;display:none;margin-top:1em;"></div>
+    echo '<div style="margin-top:1em;"><input id="wordentry" type="text" size="24" style="font-weight: bold; ' .
+            'text-transform:uppercase;" onkeypress="WordEntryKeyPress(event)" onchange="WordEntryKeyPress(event)" ' .
+            'autocomplete="off"></div>';
+    echo '<div id="worderror" style="color:#c00000;font-weight:bold;display:none;margin-top:1em;"></div>';
 
-<table border="0" cellspacing="0" cellpadding="0" width="100%" style="margin-top:1em;"><tr>
-<td align="right">
-<button id="okbutton" type="button" class="button" onclick="OKClick();" style="font-weight: bold;">
-    <?php echo get_string('ok'); ?></button> &nbsp;
-<button id="cancelbutton" type="button" class="button" onclick="DeselectCurrentWord();"><?php echo get_string('cancel'); ?></button>
-</td></tr></table>
+    echo '<table border="0" cellspacing="0" cellpadding="0" width="100%" style="margin-top:1em;"><tr>';
+    echo '<td align="right">';
+    echo '<button id="okbutton" type="button" class="button" onclick="OKClick();" style="font-weight: bold;">';
+    echo get_string('ok');
+    echo '</button> &nbsp;';
+    echo '<button id="cancelbutton" type="button" class="button" onclick="DeselectCurrentWord();">';
+    echo get_string('cancel');
+    echo '</button>';
+    echo '</td></tr></table>';
 
-</td><td>&nbsp</td><td>
+    echo '</td><td>&nbsp</td><td>';
 
-<div id="answerbox2" class="answerboxstyle" style="display:none;">
-<h3 id="wordlabel" style="text-transform:uppercase;margin:0;"> </h3>
-<div id="wordinfo" style="font-size:8pt;color:#808080"> </div>
-<div id="wordclue" class="cluebox"> </div>
-</div>
+    echo '<div id="answerbox2" class="answerboxstyle" style="display:none;">';
+    echo '<h3 id="wordlabel" style="text-transform:uppercase;margin:0;"></h3>';
+    echo '<div id="wordinfo" style="font-size:8pt;color:#808080;"></div>';
+    echo '<div id="wordclue" class="cluebox"></div>';
+    echo '</div>';
 
-</div>
+    echo '</div>';
 
-</td>
-    <?php
+    echo '</td>';
 }
 
 
@@ -1170,7 +1168,7 @@ function game_cross_show_welcome1() {
  * @package mod_game
  *
  * @param stdClass $game
- * @param stdClass $cross
+ * @param CrossDB $cross
  * @throws coding_exception
  */
 function game_cross_show_legends(stdClass $game, CrossDB $cross) {

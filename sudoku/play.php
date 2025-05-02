@@ -24,6 +24,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+// phpcs:disable moodle.Commenting.MissingDocblock.File
+
 require_once(dirname(__FILE__) . '/../../../lib/questionlib.php');
 
 /**

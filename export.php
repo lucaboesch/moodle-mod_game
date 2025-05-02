@@ -18,10 +18,12 @@
  * This page exports a game to another platform, for example HTML or Java ME.
  *
  * @package    mod_game
- * @subpackage game
  * @copyright  2007 Vasilis Daloukas
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
+// phpcs:disable PSR1.Classes.ClassDeclaration.MultipleClasses
+
 require_once(dirname(__FILE__) . '/../../config.php');
 ob_start();
 
@@ -31,6 +33,8 @@ require_login($course->id, false, $cm);
 $context = game_get_context_module_instance($cm->id);
 require_capability('mod/game:view', $context);
 require_once($CFG->dirroot . '/lib/formslib.php');
+
+require_login($course->id, false, $cm);
 
 if (!has_capability('mod/game:viewreports', $context)) {
     return;
@@ -108,8 +112,11 @@ class mod_game_exporthtml_form extends moodleform {
 
     /**
      * Do the exporting.
+     *
+     * @return void
+     * @throws moodle_exception
      */
-    public function export() {
+    public function export(): void {
         global $game, $DB;
 
         $mform = $this->_form;
@@ -212,16 +219,16 @@ function game_send_stored_file($file) {
  * @param string $dest
  * @param array $files
  */
-function game_exmportjavame_getanswers( $game, $context, $exportattachment, $dest, &$files) {
+function game_exmportjavame_getanswers($game, $context, $exportattachment, $dest, &$files) {
     $files = [];
 
     switch ($game->sourcemodule) {
         case 'question':
-            return game_exmportjavame_getanswers_question( $game, $context, $dest, $files);
+            return game_exmportjavame_getanswers_question($game, $context, $dest, $files);
         case 'glossary':
-            return game_exmportjavame_getanswers_glossary( $game, $context, $exportattachment, $dest, $files);
+            return game_exmportjavame_getanswers_glossary($game, $context, $exportattachment, $dest, $files);
         case 'quiz':
-            return game_exmportjavame_getanswers_quiz( $game, $context, $dest, $files);
+            return game_exmportjavame_getanswers_quiz($game, $context, $dest, $files);
     }
 
     return false;
@@ -238,15 +245,22 @@ function game_exmportjavame_getanswers( $game, $context, $exportattachment, $des
  * @throws dml_exception
  * @throws moodle_exception
  */
-function game_exmportjavame_getanswers_question( $game, $context, $destdir, &$files) {
-    $select = 'hidden = 0 AND category='.$game->questioncategoryid;
+function game_exmportjavame_getanswers_question($game, $context, $destdir, &$files) {
+    $select = 'hidden = 0 AND category=' . $game->questioncategoryid;
 
-    $select .= game_showanswers_appendselect( $game);
+    $select .= game_showanswers_appendselect($game);
 
-    return game_exmportjavame_getanswers_question_select( $game, $context, 'question',
-        $select, '*', $game->course, $destdir, $files);
+    return game_exmportjavame_getanswers_question_select(
+        $game,
+        $context,
+        'question',
+        $select,
+        '*',
+        $game->course,
+        $destdir,
+        $files
+    );
 }
-
 
 /**
  * Exports to javame.
@@ -275,24 +289,37 @@ function game_exmportjavame_getanswers_question_select(
 ) {
     global $DB;
 
-    if (($questions = $DB->get_records_select( $table, $select, null, '', $fields)) === false) {
+    if (($questions = $DB->get_records_select($table, $select, null, '', $fields)) === false) {
         return;
     }
 
     $map = [];
     foreach ($questions as $question) {
-        unset( $ret);
+        unset($ret);
         $ret = new stdClass();
         $ret->qtype = $question->qtype;
         $ret->question = $question->questiontext;
-        $ret->question = str_replace( [ '"', '#'], [ "'", ' '],
-            game_export_split_files( $game->course, $context, 'questiontext',
-                $question->id, $ret->question, $destdir, $files));
+        $ret->question = str_replace(
+            ['"', '#'],
+            ["'", ' '],
+            game_export_split_files(
+                $game->course,
+                $context,
+                'questiontext',
+                $question->id,
+                $ret->question,
+                $destdir,
+                $files
+            )
+        );
 
         switch ($question->qtype) {
             case 'shortanswer':
-                $rec = $DB->get_record( 'question_answers', [ 'question' => $question->id],
-                    'id,answer,feedback');
+                $rec = $DB->get_record(
+                    'question_answers',
+                    ['question' => $question->id],
+                    'id,answer,feedback'
+                );
                 $ret->answer = $rec->answer;
                 $ret->feedback = $rec->feedback;
                 $map[] = $ret;
@@ -318,13 +345,13 @@ function game_exmportjavame_getanswers_question_select(
  * @throws coding_exception
  * @throws dml_exception
  */
-function game_exmportjavame_getanswers_glossary( $game, $context, $exportattachment, $destdir, &$files) {
+function game_exmportjavame_getanswers_glossary($game, $context, $exportattachment, $destdir, &$files) {
     global $CFG, $DB;
 
     $table = '{glossary_entries} ge';
     $select = "glossaryid={$game->glossaryid}";
     if ($game->glossarycategoryid) {
-        $select .= " AND gec.entryid = ge.id ".
+        $select .= " AND gec.entryid = ge.id " .
             " AND gec.categoryid = {$game->glossarycategoryid}";
         $table .= ",{glossary_entries_categories} gec";
     }
@@ -338,7 +365,7 @@ function game_exmportjavame_getanswers_glossary( $game, $context, $exportattachm
         $fields .= ',attachment';
     }
     $sql = "SELECT $fields FROM $table WHERE $select ORDER BY definition";
-    if (($questions = $DB->get_records_sql( $sql)) === false) {
+    if (($questions = $DB->get_records_sql($sql)) === false) {
         return false;
     }
 
@@ -350,7 +377,7 @@ function game_exmportjavame_getanswers_glossary( $game, $context, $exportattachm
         $ret = new stdClass();
         $ret->id = $question->id;
         $ret->qtype = 'shortanswer';
-        $ret->question = strip_tags( $question->definition);
+        $ret->question = strip_tags($question->definition);
         $ret->answer = $question->concept;
         $ret->feedback = '';
         $ret->attachment = '';
@@ -372,14 +399,14 @@ function game_exmportjavame_getanswers_glossary( $game, $context, $exportattachm
                         continue;
                     }
                     $filename = $f->get_filename();
-                    $pos = strrpos( $filename, '.');
-                    $ext = substr( $filename, $pos);
+                    $pos = strrpos($filename, '.');
+                    $ext = substr($filename, $pos);
                     $destfile = $ret->id;
                     if ($i > 0) {
-                        $destfile .= '_'.$i;
+                        $destfile .= '_' . $i;
                     }
-                    $destfile = $destdir.'/'.$destfile.$ext;
-                    $f->copy_content_to( $destfile);
+                    $destfile = $destdir . '/' . $destfile . $ext;
+                    $f->copy_content_to($destfile);
                     $ret->attachment = $destfile;
                     $i++;
                     $files[] = $destfile;
@@ -405,11 +432,11 @@ function game_exmportjavame_getanswers_glossary( $game, $context, $exportattachm
  * @throws dml_exception
  * @throws moodle_exception
  */
-function game_exmportjavame_getanswers_quiz( $game, $context, $destdir, $files) {
-    $select = "quiz='$game->quizid' ".
-        " AND qqi.question=q.id".
-        " AND q.hidden=0".
-        game_showanswers_appendselect( $game);
+function game_exmportjavame_getanswers_quiz($game, $context, $destdir, $files) {
+    $select = "quiz='$game->quizid' " .
+        " AND qqi.question=q.id" .
+        " AND q.hidden=0" .
+        game_showanswers_appendselect($game);
     $table = "{question} q,{quiz_question_instances} qqi";
 
     return game_exmportjavame_getanswers_question_select(

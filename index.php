@@ -48,7 +48,7 @@ $PAGE->set_pagelayout('incourse');
 
 if (game_use_events()) {
     require('classes/event/course_module_instance_list_viewed.php');
-    course_module_instance_list_viewed::create_from_course($course)->trigger();
+    \mod_game\event\course_module_instance_list_viewed::create_from_course($course)->trigger();
 } else {
     add_to_log($course->id, "game", "view all", "index.php?id=$course->id", "");
 }

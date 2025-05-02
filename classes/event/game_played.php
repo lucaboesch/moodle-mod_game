@@ -30,8 +30,6 @@ use core\exception\moodle_exception;
 use moodle_url;
 use stdClass;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * The mod_game chapter viewed event class.
  *

@@ -70,7 +70,7 @@ function game_compute_repetitions($game) {
 
     $DB->delete_records('game_repetitions', ['gameid' => $game->id, 'userid' => $USER->id]);
 
-    $sql = "INSERT INTO {game_repetitions}(gameid,userid,questionid,glossaryentryid,repetitions) "  .
+    $sql = "INSERT INTO {game_repetitions}( gameid,userid,questionid,glossaryentryid,repetitions) " .
            "SELECT $game->id,$USER->id,questionid,glossaryentryid,COUNT(*) " .
            "FROM {game_queries} WHERE gameid=$game->id AND userid=$USER->id GROUP BY questionid,glossaryentryid";
 
@@ -100,11 +100,12 @@ function game_showusers($game) {
         $users[$guest->id] = fullname($guest);
     }
     $href = $CFG->wwwroot . '/mod/game/showanswers.php?q=' . $game->id . '&userid=';
-    echo '<script type="text/javascript">
-    function onselectuser() {
-        window.location.href = ' . json_encode($href) . ' + document.getElementById("menuuser").value;
-    }
-    </script>';
+
+    echo '    <script type="text/javascript">';
+    echo '        function onselectuser() {';
+    echo '        window.location.href = "' . $href . '" + document.getElementById(\'menuuser\').value;';
+    echo '        }';
+    echo '    </script>';
 
     $attributes = 'onchange="javascript:onselectuser();"';
     $name = 'user';
@@ -126,7 +127,10 @@ function game_showusers($game) {
     if (!empty($options)) {
         foreach ($options as $value => $label) {
             $output .= '   <option value="' . s($value) . '"';
-            if ((string)$value == (string)$selected || (is_array($selected) && in_array($value, $selected))) {
+            if (
+                (string)$value == (string)$selected ||
+                (is_array($selected) && in_array($value, $selected))
+            ) {
                 $output .= ' selected="selected"';
             }
             if ($label === '') {
@@ -141,8 +145,6 @@ function game_showusers($game) {
 
 /**
  * Show answers
- *
- * @package mod_game
  *
  * @param stdClass $game
  * @param boolean $existsbook
@@ -168,9 +170,7 @@ function game_showanswers($game, $existsbook, $context) {
 }
 
 /**
- * Append select to SQL
- *
- * @package mod_game
+ * append select to SQL
  *
  * @param stdClass $game
  */
@@ -193,8 +193,6 @@ function game_showanswers_appendselect($game) {
 
 /**
  * Show answers question
- *
- * @package mod_game
  *
  * @param stdClass $game
  * @param stdClass $context
@@ -235,7 +233,7 @@ function game_showanswers_question($game, $context) {
             }
         }
     } else {
-        $context2 = game_get_context_course_instance($COURSE->id);
+        $context2 = get_context_instance(50, $COURSE->id);
         $select = " contextid in ($context2->id)";
         $select2 = '';
         if ($recs = $DB->get_records_select('question_categories', $select, null, 'id,id')) {
@@ -276,8 +274,6 @@ function game_showanswers_question($game, $context) {
 
 /**
  * Show answers quiz
- *
- * @package mod_game
  *
  * @param stdClass $game
  * @param stdClass $context
@@ -327,8 +323,6 @@ function game_showanswers_quiz($game, $context) {
 /**
  * Create the select for SQL
  *
- * @package mod_game
- *
  * @param stdClass $game
  * @param string $table
  * @param string $select
@@ -339,7 +333,7 @@ function game_showanswers_quiz($game, $context) {
  * @param stdClass $context
  */
 function game_showanswers_question_select($game, $table, $select, $fields, $order, $showcategoryname, $courseid, $context) {
-    global $CFG, $DB;
+    global $CFG, $DB, $OUTPUT;
 
     $sql = "SELECT $fields FROM $table WHERE $select ORDER BY $order";
     if (($questions = $DB->get_records_sql($sql)) === false) {
@@ -411,21 +405,21 @@ function game_showanswers_question_select($game, $table, $select, $fields, $orde
             $href = "{$CFG->wwwroot}/question/question.php?inpopup=1&amp;id=$question->id&courseid=$courseid&cmid=$cm->id";
         }
         echo '<td>';
-        echo "<a title=\"Edit\" href=\"{$href}\" target=\"_blank\">";
+        echo "<a title=\"Edit\" " .
+            "href=\"{$href}\" target=\"_blank\">";
         echo "<img src=\"" . game_pix_url('t/edit') . "\" alt=\"Edit\" style=\"width: 1em\"/></a> ";
 
-        echo game_filterquestion(
-            str_replace([ "\'", '\"'], [ "'", '"'], $question->questiontext),
-            $question->id,
-            $context->id,
-            $game->course
-        );
+        echo game_filterquestion(str_replace(
+            [ "\'", '\"'],
+            [ "'", '"'],
+            $question->questiontext
+        ), $question->id, $context->id, $game->course);
 
         switch ($question->qtype) {
             case 'shortanswer':
                 $recs = $DB->get_records(
                     'question_answers',
-                    [ 'question' => $question->id],
+                    ['question' => $question->id],
                     'fraction DESC',
                     'id,answer,feedback'
                 );
@@ -444,7 +438,7 @@ function game_showanswers_question_select($game, $table, $select, $fields, $orde
                 break;
             case 'multichoice':
             case 'truefalse':
-                $recs = $DB->get_records('question_answers', [ 'question' => $question->id]);
+                $recs = $DB->get_records('question_answers', ['question' => $question->id]);
                 $feedback = '';
                 echo '<td>';
                 $i = 0;
@@ -493,8 +487,6 @@ function game_showanswers_question_select($game, $table, $select, $fields, $orde
 /**
  * Show answers glossary
  *
- * @package mod_game
- *
  * @param stdClass $game
  */
 function game_showanswers_glossary($game) {
@@ -542,12 +534,12 @@ function game_showanswers_glossary($game) {
     $line = 0;
     foreach ($questions as $question) {
         if ($game->param7 == 0) {        // Not allowed spaces.
-            if (!(strpos($question->concept, ' ') === false)) {
+            if (!( strpos($question->concept, ' ') === false)) {
                 continue;
             }
         }
         if ($game->param8 == 0) {        // Not allowed -.
-            if (!(strpos($question->concept, '-') === false)) {
+            if (!( strpos($question->concept, '-') === false)) {
                 continue;
             }
         }
@@ -578,12 +570,12 @@ function game_showanswers_glossary($game) {
 /**
  * Show answers bookquiz
  *
- * @package mod_game
- *
  * @param stdClass $game
  * @param stdClass $context
  */
 function game_showanswers_bookquiz($game, $context) {
+    global $CFG;
+
     $select = "gbq.questioncategoryid=q.category " .
         " AND gbq.gameid = $game->id " .
         " AND bc.id = gbq.chapterid";

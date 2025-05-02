@@ -225,5 +225,3 @@ echo '</tr>';
 echo '</table>';
 
 echo $OUTPUT->footer($course);
-
-echo $OUTPUT->footer($course);

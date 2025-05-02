@@ -149,7 +149,7 @@ function game_millionaire_showgrid($game, $millionaire, $id, $query, $aanswer, $
     $background = "style='background:#$color'";
 
     echo '<form name="Form1" method="post" action="attempt.php" id="Form1">';
-    echo "<table cellpadding=0 cellspacing=0 border=0>\r\n";
+    echo "<table cellpadding=0 cellspacing=0 border=0 class=\"table-reboot\">\r\n";
     echo "<tr $background>";
     echo '<td rowspan=' . (17 + count($aanswer)) . '>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>';
     echo "<td colspan=6>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>";
@@ -343,16 +343,18 @@ function game_millionaire_shownextquestion($cm, $game, $attempt, $millionaire, $
 /**
  * Selects a question for the Millionaire game.
  *
- * @param array  $aanswer     Array to store the possible answers.
- * @param object $game         The game object.
- * @param object $attempt      The game attempt object.
- * @param object $millionaire  The current Millionaire game state.
+ * @param array $aanswer      Array to store the possible answers.
+ * @param object $game        The game object.
+ * @param object $attempt     The game attempt object.
+ * @param object $millionaire The current Millionaire game state.
  * @param object $query       The query object to be filled.
- * @param object $context      The context (for filtering media, etc.).
- * @param object $cm           The course module.
- * @param object $course       The course.
- *
- * @throws moodle_exception    If the configuration is invalid or no question is found.
+ * @param object $context     The context (for filtering media, etc.).
+ * @param object $cm          The course module.
+ * @param object $course      The course.
+ * @return void
+ * @throws coding_exception
+ * @throws dml_exception
+ * @throws moodle_exception   If the configuration is invalid or no question is found.
  */
 function game_millionaire_selectquestion(&$aanswer, $game, $attempt, &$millionaire, &$query, $context, $cm, $course) {
     global $CFG, $DB, $USER;
@@ -435,8 +437,8 @@ function game_millionaire_selectquestion(&$aanswer, $game, $attempt, &$millionai
                 $select2 = 'qbe.id=qv.questionbankentryid AND q.id=qv.questionid AND qbe.questioncategoryid=' .
                     $game->questioncategoryid;
             }
-            $select2 .= " AND qv.id = (SELECT id FROM {question_versions} WHERE questionbankentryid = qv.questionbankentryid
-                ORDER BY version DESC LIMIT 1)";
+            $select2 .= " AND qv.id = (SELECT id FROM {question_versions} WHERE questionbankentryid = qv.questionbankentryid " .
+                "ORDER BY version DESC LIMIT 1)";
         } else {
             $cats = $game->subcategories ? question_categorylist($game->questioncategoryid) : [];
             $select2 = count($cats) ? 'q.category IN (' . implode(',', $cats) . ')' : 'category=' . $game->questioncategoryid;
