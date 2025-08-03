@@ -92,7 +92,7 @@ if ($PAGE->user_allowed_editing() && !empty($CFG->showblocksonmodpages)) {
     $buttons = '<table><tr><td><form method="get" action="view.php"><div>' .
         '<input type="hidden" name="id" value="' . $cm->id . '" />' .
         '<input type="hidden" name="edit" value="' . ($PAGE->user_is_editing() ? 'off' : 'on') . '" />' .
-        '<input type="submit" value="' .
+        '<input type="submit" class="btn btn-secondary" value="' .
             get_string($PAGE->user_is_editing() ? 'blockseditoff' : 'blocksediton') .
             '" /></div></form></td></tr></table>';
     $PAGE->set_button($buttons);

@@ -52,7 +52,7 @@ function showform() {
     echo '<td align="right"><b>' . get_string('sudoku_create_count', 'game') . ':</b></td>';
     echo '<td><input type="text" name="count" size="6" value="2" /><br></td>';
     echo '</tr>';
-    echo '<tr><td colspan="2"><center><br><input type="submit" value="' .
+    echo '<tr><td colspan="2"><center><br><input type="submit" class="btn btn-secondary" value="' .
             s(get_string('sudoku_create_start', 'game')) . '" /></center></td></tr>';
     echo '</table>';
     echo '<input type="hidden" name="action" value="create" />';

@@ -600,7 +600,7 @@ class game_report extends game_default_report {
                         true
                     );
                     echo '<noscript id="noscriptmenuaction" style="display: inline;"><div>';
-                    echo '<input type="submit" value="' . get_string('go') . '" /></div></noscript>';
+                    echo '<input type="submit" class="btn btn-secondary" value="' . get_string('go') . '" /></div></noscript>';
                     echo '<script type="text/javascript">' . "\n<!--\n" .
                         'document.getElementById("noscriptmenuaction").style.display = "none";'
                         . "\n-->\n" . '</script>';
@@ -680,7 +680,7 @@ class game_report extends game_default_report {
             get_string('showdetailedmarks', 'game') . '</label> ';
         echo '</td></tr>';
         echo '<tr><td colspan="2" align="center">';
-        echo '<input type="submit" value="' . get_string('go') . '" />';
+        echo '<input type="submit" class="btn btn-secondary" value="' . get_string('go') . '" />';
         echo '</td></tr></table>';
         echo '</div>';
         echo '</form>';

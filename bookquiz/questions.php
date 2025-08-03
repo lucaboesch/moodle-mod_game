@@ -117,7 +117,7 @@ echo '<input type="hidden" name="id" value="' . p($id) . '" />';
 echo '<input type="hidden" name="q" value="' . p($q) . '" />';
 echo '<input type="hidden" name="ids" value="' . p(substr($ids, 1)) . '" />';
 echo '<center>';
-echo '<input type="submit" value="' . print_string("savechanges") . '" />';
+echo '<input type="submit" class="btn btn-secondary" value="' . print_string("savechanges") . '" />';
 echo '</center>';
 echo '</form>';
 

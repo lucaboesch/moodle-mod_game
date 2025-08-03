@@ -170,7 +170,7 @@ function game_bookquiz_play($cm, $game, $attempt, $bookquiz, $chapterid, $contex
             $nextbutton .= '<form name="form" method="get" action="attempt.php">';
             $nextbutton .= '<input type="hidden" name="id" value="' . $cm->id . '" >' . "\r\n";
             $nextbutton .= '<input type="hidden" name="chapterid" value="' . $nextid . '" >' . "\r\n";
-            $nextbutton .= '<input type="submit" value="' . get_string('continue') . '">';
+            $nextbutton .= '<input type="submit" class="btn btn-secondary" value="' . get_string('continue') . '">';
             $nextbutton .= '</center>';
             game_updateattempts_maxgrade($game, $attempt, $scoreattempt, 0, $cm, $course);
         }
@@ -316,7 +316,8 @@ function game_bookquiz_showquestions($id, $questionid, $chapterid, $nextchapteri
          " onclick=\"this.autocomplete='off'\">\n";
     if (($onlyshow === false) && ($showsolution === false)) {
         echo "<center><input type=\"submit\" name=\"finishattempt\" value=\"" .
-                get_string('sudoku_submit', 'game') . "\"></center>\n";
+                get_string('sudoku_submit', 'game') . "\"
+        class=\"btn btn-secondary\"></center>\n";
     }
 
     // Add a hidden field with the quiz id.
@@ -341,8 +342,8 @@ function game_bookquiz_showquestions($id, $questionid, $chapterid, $nextchapteri
     // Finish the form.
     echo '</div>';
     if (($onlyshow === false) && ($showsolution === false)) {
-        echo "<center><input type=\"submit\" name=\"finishattempt\" value=\"" .
-            get_string('sudoku_submit', 'game') . "\"></center>\n";
+        echo "<center><input type=\"submit\" name=\"finishattempt\" value=\"" . get_string('sudoku_submit', 'game') .
+            "\" class=\"btn btn-secondary\"></center>\n";
     }
 
     echo "</form>\n";

@@ -252,7 +252,7 @@ function game_cross_play(
         }
         if (game_can_start_new_attempt($game)) {
             echo '<br>';
-            echo "<a href=\"{$CFG->wwwroot}/mod/game/attempt.php?id={$cm->id}&forcenew=1\">" .
+            echo "<a href=\"{$CFG->wwwroot}/mod/game/attempt.php?id={$cm->id}&forcenew=1\" class=\"btn btn-secondary\">" .
                 get_string('nextgame', 'game') . '</a> &nbsp; &nbsp; &nbsp; &nbsp; ';
         }
     } else if ($info != '') {
@@ -983,18 +983,18 @@ function CheckHtmlClick() {
         echo '<div style="margin-top: 1em;">';
 
         if (!$done) {
-            echo '<button id="checkbutton" type="button" onclick="CheckServerClick(0);" style="display: inline;">' .
-            get_string('cross_checkbutton', 'game');
+            echo '<button id="checkbutton" type="button" onclick="CheckServerClick(0);" style="display: inline;" ' .
+                'class="btn btn-secondary">' . get_string('cross_checkbutton', 'game');
             echo '</button>';
 
             echo ' &nbsp;&nbsp;&nbsp;&nbsp;<button id="finishattemptbutton" ' .
-                ' type="button" onclick="CheckServerClick(1);" style="display: inline;">' .
+                ' type="button" onclick="CheckServerClick(1);" style="display: inline;" class="btn btn-secondary">' .
             get_string('cross_endofgamebutton', 'game');
             echo '</button>';
         }
 
         if ($game->param5 == 1 || $game->param5 == null) {
-            echo ' &nbsp;&nbsp;&nbsp;&nbsp;<button id="printbutton" type="button" ' .
+            echo ' &nbsp;&nbsp;&nbsp;&nbsp;<button id="printbutton" type="button" class="btn btn-secondary" ' .
             ' onclick="OnPrint(0);" style="display: inline;">' . get_string('print', 'game');
             echo '</button>';
         }
@@ -1007,7 +1007,7 @@ function CheckHtmlClick() {
     }
 
     if ($showhtmlsolutions) {
-        echo '<button id="checkhtmlbutton" type="button" ' .
+        echo '<button id="checkhtmlbutton" type="button btn btn-secondary" ' .
         ' onclick="CheckHtmlClick();" visible=true>' . get_string('cross_checkbutton', 'game');
         echo '</button>';
     }
@@ -1016,7 +1016,8 @@ function CheckHtmlClick() {
         if ($showhtmlsolutions) {
             echo "&nbsp;&nbsp;&nbsp;&nbsp;";
         }
-        echo '<button id="printhtmlbutton" type="button" onclick="PrintHtmlClick(0);" visible=true>' . get_string('print', 'game');
+        echo '<button id="printhtmlbutton" type="button btn btn-secondary" onclick="PrintHtmlClick(0);" visible=true>' .
+            get_string('print', 'game');
         echo '</button>';
     }
 
@@ -1108,10 +1109,10 @@ function game_cross_show_welcome0($game) {
     echo '<div id="worderror" style="color:#c00000;font-weight:bold;display:none;margin-top:1em;"></div>';
     echo '<table border="0" cellspacing="0" cellpadding="0" width="100%" style="margin-top:1em;" class="table-reboot"><tr>';
     echo '<td align="right">';
-    echo '<button id="okbutton" type="button" class="button" onclick="OKClick();" style="font-weight: bold;">';
+    echo '<button id="okbutton" type="button" class="button btn btn-secondary" onclick="OKClick();" style="font-weight: bold;">';
     echo get_string('ok');
     echo '</button> &nbsp;';
-    echo '<button id="cancelbutton" type="button" class="button" onclick="DeselectCurrentWord();">';
+    echo '<button id="cancelbutton" type="button" class="button btn btn-secondary" onclick="DeselectCurrentWord();">';
     echo get_string('cancel');
     echo '</button>';
     echo '</td></tr></table>';

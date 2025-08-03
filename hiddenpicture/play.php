@@ -382,7 +382,7 @@ function game_hiddenpicture_showquestion_glossary($game, $id, $query) {
     echo "<form id=\"responseform\" method=\"post\" " .
         "action=\"{$CFG->wwwroot}/mod/game/attempt.php\" onclick=\"this.autocomplete='off'\">\n";
     echo "<center><input type=\"submit\" name=\"finishattempt\" " .
-        "value=\"" . get_string('hiddenpicture_mainsubmit', 'game') . "\"></center>\n";
+        "value=\"" . get_string('hiddenpicture_mainsubmit', 'game') . "\" class=\"btn btn-secondary\"></center>\n";
 
     // Add a hidden field with the queryid.
     echo '<input type="hidden" name="id" value="' . s($id) . "\" />\n";
@@ -474,7 +474,8 @@ function game_hiddenpicture_check_mainquestion($cm, $game, &$attempt, &$hiddenpi
     echo "<a href=\"$CFG->wwwroot/mod/game/attempt.php?id={$cm->id}\">";
     echo get_string('nextgame', 'game') . '</a> &nbsp; &nbsp; &nbsp; &nbsp;';
 
-    echo "<a href=\"{$CFG->wwwroot}/course/view.php?id=$cm->course\">" . get_string('finish', 'game') . '</a> ';
+    echo "<a href=\"{$CFG->wwwroot}/course/view.php?id=$cm->course\" class=\"btn btn-secondary\">" .
+        get_string('finish', 'game') . '</a> ';
 
     return false;
 }

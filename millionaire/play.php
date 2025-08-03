@@ -287,8 +287,9 @@ function game_millionaire_showgrid($game, $millionaire, $id, $query, $aanswer, $
 
         $button = '<input style="' . $style . '" ' . $disabled . 'type="submit" name="' . $name .
             '" value="' . $s . '" id="' . $name . "1\"" .
-            " onmouseover=\"this.style.backgroundColor = '$color2';$name.style.backgroundColor = '$color2';\" " .
-            " onmouseout=\"this.style.backgroundColor = '$colorback';$name.style.backgroundColor = '$colorback';\" >";
+            " onmouseover=\"this.style.backgroundColor = '$color2';$name.style.backgroundColor = '$color2';\"" .
+            " onmouseout=\"this.style.backgroundColor = '$colorback';$name.style.backgroundColor = '$colorback';\"" .
+            " class=\"btn btn-secondary\" >";
         $text = game_filtertext($aanswer[$i - 1], $game->course);
         $answer = "<span id=$name style=\"$style\" " .
             " onmouseover=\"this.style.backgroundColor = '$color2';{$name}1.style.backgroundColor = '$color2';\" " .
@@ -818,7 +819,8 @@ function game_millionaire_onquit($cm, $game, $attempt, $query, $course) {
     game_updateattempts($game, $attempt, -1, true, $cm, $course);
 
     echo '<br>';
-    echo "<a href=\"{$CFG->wwwroot}/mod/game/attempt.php?id={$cm->id}\">" .
+    echo "<a href=\"{$CFG->wwwroot}/mod/game/attempt.php?id={$cm->id}\" class=\"btn btn-secondary\">" .
         get_string('nextgame', 'game') . '</a> &nbsp; &nbsp; &nbsp; &nbsp; ';
-    echo "<a href=\"{$CFG->wwwroot}/course/view.php?id=$cm->course\">" . get_string('finish', 'game') . '</a> ';
+    echo "<a href=\"{$CFG->wwwroot}/course/view.php?id=$cm->course\" class=\"btn btn-secondary\">" .
+        get_string('finish', 'game') . '</a> ';
 }

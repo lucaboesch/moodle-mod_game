@@ -341,10 +341,13 @@ function game_sudoku_showsudoku(
                                 if (!array_key_exists($pos, $correctquestions)) {
                                     if (array_key_exists($pos, $offsetquestions)) {
                                         if ($s != $g) {
-                                            $s = '<input type="submit" value="A' . $pos . '" onclick="OnCheck(' . $pos . ');" />';
+                                            $s = '<input type="submit" class="btn btn-secondary" value="A' . $pos . '" ' .
+                                                'onclick="OnCheck(' . $pos . ');" />';
                                         }
                                     } else if ($g == 0) {
-                                        $s = '<input type="submit" value="" onclick="OnCheck(' . $pos . ');" />';
+                                        $s = '<input type="submit" class="btn btn-secondary" value="" onclick="OnCheck(' .
+                                            $pos . ');' .
+                                            '" />';
                                     }
                                 } else {
                                     // Correct question.
@@ -397,9 +400,10 @@ function game_sudoku_showsudoku(
 
     echo '<B><br>' . get_string('win', 'game') . '</B><BR>';
     echo '<br>';
-    echo "<a href=\"$CFG->wwwroot/mod/game/attempt.php?id={$cm->id}&finishattempt=1\">" .
+    echo "<a href=\"$CFG->wwwroot/mod/game/attempt.php?id={$cm->id}&finishattempt=1\" class=\"btn btn-secondary\">" .
         get_string('nextgame', 'game') . '</a> &nbsp; &nbsp; &nbsp; &nbsp; ';
-    echo "<a href=\"$CFG->wwwroot/course/view.php?id=$cm->course\">" . get_string('finish', 'game') . '</a> ';
+    echo "<a href=\"$CFG->wwwroot/course/view.php?id=$cm->course\" class=\"btn btn-secondary\">" .
+        get_string('finish', 'game') . '</a> ';
 
     game_updateattempts($game, $attempt, 1, game_sudoku_check_found_all_numbers(), $cm, $course);
 
@@ -524,16 +528,17 @@ function game_sudoku_showquestions_quiz(
             echo "<form id=\"responseform\" method=\"post\" " .
                 "action=\"{$CFG->wwwroot}/mod/game/attempt.php\" onclick=\"this.autocomplete='off'\">\n";
             if (($onlyshow === false) && ($showsolution === false)) {
-                echo "<br><center><input type=\"submit\" name=\"submit\" value=\"" . get_string('sudoku_submit', 'game') . "\">";
+                echo "<br><center><input type=\"submit\" name=\"submit\" value=\"" . get_string('sudoku_submit', 'game') . "\"
+                class=\"btn btn-secondary\">";
 
                 echo " &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type=\"submit\" name=\"finishattempt\" value=\"" .
-                get_string('sudoku_finishattemptbutton', 'game') . "\">";
+                get_string('sudoku_finishattemptbutton', 'game') . "\" class=\"btn btn-secondary\">";
             }
 
             // Add a hidden field with the quiz id.
             echo '<div>';
             echo '<input type="hidden" name="id" value="' . s($id) . "\" />\n";
-            echo '<input type="hidden" name="action" value="sudokucheck" />';
+            echo '<input type="hidden" name="action" value="sudokucheck" class=\"btn btn-secondary\"/>';
 
             // Print all the questions.
 
@@ -552,7 +557,8 @@ function game_sudoku_showquestions_quiz(
         // Finish the form.
         echo '</div>';
         if (($onlyshow === false) && ($showsolution === false)) {
-            echo "<center><input type=\"submit\" name=\"submit\" value=\"" . get_string('sudoku_submit', 'game') . "\"></center>\n";
+            echo "<center><input type=\"submit\" name=\"submit\" value=\"" . get_string('sudoku_submit', 'game') . "\"
+            class=\"btn btn-secondary\"></center>\n";
         }
 
         echo "</form>\n";
@@ -613,7 +619,8 @@ function game_sudoku_showquestions_glossary(
     }
 
     if ($hasquestions) {
-        echo "<center><input type=\"submit\" name=\"submit\" value=\"" . get_string('sudoku_submit', 'game') . "\"></center>\n";
+        echo "<center><input type=\"submit\" name=\"submit\" value=\"" . get_string('sudoku_submit', 'game') . "\"
+        class=\"btn btn-secondary\"></center>\n";
     }
 
     // Add a hidden field with the quiz id.
@@ -651,7 +658,8 @@ function game_sudoku_showquestions_glossary(
 
     // Finish the form.
     if ($hasquestions) {
-        echo "<center><input type=\"submit\" name=\"submit\" value=\"" . get_string('sudoku_submit', 'game') . "\"></center>\n";
+        echo "<center><input type=\"submit\" name=\"submit\" value=\"" . get_string('sudoku_submit', 'game') . "\"
+        class=\"btn btn-secondary\"></center>\n";
     }
 
     echo "</form>\n";
@@ -672,9 +680,9 @@ function game_sudoku_showquestion_onfinish($id, $game, $attempt, $sudoku) {
 
     echo '<B>' . get_string('win', 'game') . '</B><BR>';
     echo '<br>';
-    echo "<a href=\"{$CFG->wwwroot}/mod/game/attempt.php?id=$id\">" .
+    echo "<a href=\"{$CFG->wwwroot}/mod/game/attempt.php?id=$id\" class=\"btn btn-secondary\">" .
         get_string('nextgame', 'game') . '</a> &nbsp; &nbsp; &nbsp; &nbsp; ';
-    echo "<a href=\"{$CFG->wwwroot}?id=$id\">" . get_string('finish', 'game') . '</a> ';
+    echo "<a href=\"{$CFG->wwwroot}?id=$id\" class=\"btn btn-secondary\">" . get_string('finish', 'game') . '</a> ';
 }
 
 /**

@@ -333,9 +333,11 @@ width: 240pt;
     <?php
 
     if ($showhtmlprintbutton && !$finished) {
-        echo '<br><button id="finishattemptbutton" type="button" onclick="OnEndGame();" >' . get_string('finish', 'game');
+        echo '<br><button id="finishattemptbutton" type="button" class="btn btn-secondary" onclick="OnEndGame();" >' .
+            get_string('finish', 'game');
         echo '</button>';
-        echo '<button id="printbutton" type="button" onclick="OnPrint();" >' . get_string('print', 'game');
+        echo '<button id="printbutton" type="button" class="btn btn-secondary ms-2" onclick="OnPrint();" >' .
+            get_string('print', 'game');
         echo '</button><br>';
     }
 
@@ -409,8 +411,8 @@ width: 240pt;
         echo "<script>var msg{$q->id}=" . json_encode($question2) . ';</script>';
         if (($onlyshow == false) && ($showsolution == false)) {
             if (($game->param8 == 0) || ($game->param8 > $q->tries)) {
-                $question .= ' &nbsp;<input type="submit" value="' .
-                get_string('answer') . '" onclick="OnCheck( ' . $q->id . ",msg{$q->id});\" />";
+                $question .= ' &nbsp;<input type="submit" class="btn btn-secondary" value="' .
+                get_string('answer') . '" onclick="OnCheck(' . $q->id . ",msg{$q->id});\" />";
             }
         }
         echo $question;
